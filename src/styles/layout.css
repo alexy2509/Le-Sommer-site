@@ -1,0 +1,129 @@
+/*
+  Layout — mobile-first. Points de rupture testés : 375 / 768 / 1024 / 1440 / 1920.
+  (pas de custom media queries — dépendances minimales, media queries standard)
+*/
+
+.container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--space-sm);
+}
+@media (min-width: 768px) {
+  .container {
+    padding-inline: var(--space-lg);
+  }
+}
+
+.container--narrow {
+  max-width: var(--content-narrow);
+}
+
+main {
+  display: block;
+}
+
+section {
+  padding-block: var(--space-section);
+  position: relative;
+}
+/* Décalage pour les ancres (header sticky ~80px) : le titre de section n'est pas masqué. */
+section[id],
+[data-anchor] {
+  scroll-margin-top: 100px;
+}
+section.section--tight {
+  padding-block: var(--space-lg);
+}
+section.section--alt {
+  background: var(--c-bg-alt);
+}
+section.section--inverse {
+  background: var(--c-bg-inverse);
+  color: var(--c-text-inverse);
+}
+section.section--inverse h1,
+section.section--inverse h2,
+section.section--inverse h3 {
+  color: var(--c-text-inverse);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .grid--6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.section-head {
+  max-width: var(--content-narrow);
+  margin-bottom: var(--space-lg);
+}
+.section-head--center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xsmall);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-petrol);
+  font-weight: 600;
+  margin-bottom: var(--space-2xs);
+}
+
+/* ---- Page shell ---- */
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+.page > main {
+  flex: 1;
+}
+
+/* ---- Responsive helpers ---- */
+.hide-mobile {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .hide-mobile {
+    display: revert;
+  }
+  .hide-desktop {
+    display: none;
+  }
+}

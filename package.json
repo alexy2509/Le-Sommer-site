@@ -1,0 +1,27 @@
+{
+  "name": "le-sommer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Site vitrine LE SOMMER — électricité industrielle & matériel d'élevage (Ergué-Gabéric, Finistère)",
+  "scripts": {
+    "prebuild": "node scripts/prepare-assets.mjs && node scripts/generate-pages.mjs",
+    "predev": "node scripts/prepare-assets.mjs && node scripts/generate-pages.mjs",
+    "dev": "vite",
+    "build": "vite build && node scripts/generate-sitemap.mjs",
+    "preview": "vite preview",
+    "lint": "node scripts/check-links.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "audit": "npm run build && node scripts/audit-lighthouse.mjs",
+    "audit:grep": "node scripts/audit-grep.mjs"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "@fontsource/inter": "^5.2.6",
+    "@fontsource/manrope": "^5.2.6",
+    "sharp": "^0.34.4",
+    "vite": "^7.1.11"
+  }
+}

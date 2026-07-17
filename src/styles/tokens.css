@@ -1,0 +1,80 @@
+/*
+  Design tokens — charte graphique LE SOMMER (src/assets/brand/charte-graphique-reference.png).
+  Couleurs et typographies extraites à l'octet près de la charte fournie. Ne pas modifier
+  sans mise à jour de la charte source.
+*/
+:root {
+  /* ---- Couleurs de marque (charte graphique) ---- */
+  --c-petrol: #0097a9; /* bleu pétrole — accent principal, CTA, liens actifs */
+  --c-petrol-dark: #007686; /* dérivé — hover/active sur fond clair */
+  --c-navy: #071a26; /* bleu nuit — titres, texte principal, fonds sombres */
+  --c-navy-soft: #0e2739; /* dérivé — panneaux sombres (footer, bandeaux) */
+  --c-white: #ffffff;
+  --c-gray-100: #f5f7f8; /* gris clair — fonds de section alternés */
+  --c-gray-300: #d9dee2; /* gris moyen — bordures, séparateurs */
+  --c-gray-600: #5f6870; /* gris texte — texte secondaire */
+  --c-green: #2bcb7f; /* vert électrique — validation, disponibilité, succès */
+  --c-error: #d64545; /* rouge — erreurs de formulaire (hors charte, choisi pour contraste AA) */
+
+  /* ---- Rôles sémantiques ---- */
+  --c-bg: var(--c-white);
+  --c-bg-alt: var(--c-gray-100);
+  --c-bg-inverse: var(--c-navy);
+  --c-surface: var(--c-white);
+  --c-border: var(--c-gray-300);
+  --c-text: var(--c-navy);
+  --c-text-muted: var(--c-gray-600);
+  --c-text-inverse: var(--c-white);
+  --c-accent: var(--c-petrol);
+  --c-accent-hover: var(--c-petrol-dark);
+  --c-success: var(--c-green);
+
+  /* ---- Typographies — self-hostées (src/assets/fonts), jamais de CDN ---- */
+  --font-display: 'Manrope', system-ui, sans-serif; /* titres — Bold/Extrabold */
+  --font-body: 'Inter', system-ui, sans-serif; /* corps de texte */
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, monospace; /* références techniques, chiffres */
+
+  /* ---- Échelle typographique fluide ---- */
+  --fs-hero: clamp(2.2rem, 5.5vw, 4.25rem);
+  --fs-h1: clamp(2rem, 4.5vw, 3.25rem);
+  --fs-h2: clamp(1.6rem, 3vw, 2.5rem);
+  --fs-h3: clamp(1.2rem, 2vw, 1.5rem);
+  --fs-body-lg: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-xsmall: 0.75rem;
+  --lh-tight: 1.15;
+  --lh-heading: 1.25;
+  --lh-body: 1.6;
+
+  /* ---- Rythme / layout ---- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-section: clamp(4rem, 10vh, 7rem);
+  --content-max: 1200px;
+  --content-narrow: 760px;
+
+  /* ---- Forme / effets ---- */
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px rgba(7, 26, 38, 0.06), 0 1px 1px rgba(7, 26, 38, 0.04);
+  --shadow-md: 0 8px 24px rgba(7, 26, 38, 0.1);
+  --shadow-lg: 0 20px 48px rgba(7, 26, 38, 0.14);
+  --border-w: 1px;
+  --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --z-header: 100;
+  --z-overlay: 200;
+  --z-skiplink: 300;
+
+  /* Hauteur de la barre d'action mobile — partagée par la barre et le padding du body
+     (garantit qu'aucune bande blanche n'apparaisse entre le footer et la barre). */
+  --mobile-bar-h: 68px;
+}

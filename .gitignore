@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.pages/
+
+# générés par scripts/prepare-assets.mjs (npm run predev/prebuild) — sources dans src/assets/brand/
+public/assets/
+public/favicon.ico
+public/favicon-*.png
+public/apple-touch-icon.png
+public/site.webmanifest
+api/config.php
+api/vendor/
+.env
+.env*
+*.log
+.DS_Store
+lighthouse-reports/
+
+# Fichiers temporaires / verrous bureautiques
+~$*

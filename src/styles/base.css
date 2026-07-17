@@ -1,0 +1,153 @@
+/* Reset minimal + styles de base */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto; /* le smooth scroll est géré par Lenis en JS, désactivé si reduced-motion */
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Taille par défaut de toute icône inline (src/pages/partials/icons.mjs) — les
+   composants qui ont besoin d'une taille différente la redéfinissent localement. */
+.icon {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: var(--lh-heading);
+  color: var(--c-navy);
+  margin: 0 0 var(--space-sm);
+}
+
+h1 {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+}
+h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.005em;
+}
+h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+}
+
+p {
+  margin: 0 0 var(--space-sm);
+  max-width: 68ch;
+}
+
+a {
+  color: var(--c-accent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.15em;
+}
+a:hover {
+  color: var(--c-accent-hover);
+}
+
+ul,
+ol {
+  margin: 0 0 var(--space-sm);
+  padding-left: 1.25em;
+}
+
+button {
+  font-family: inherit;
+}
+
+label {
+  font-weight: 600;
+}
+
+/* ---- Accessibilité clavier ---- */
+:focus-visible {
+  outline: 2px solid var(--c-petrol);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-sm);
+  z-index: var(--z-skiplink);
+  background: var(--c-navy);
+  color: var(--c-white);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: top var(--transition-fast);
+}
+.skip-link:focus-visible {
+  top: var(--space-sm);
+}
+
+::selection {
+  background: var(--c-petrol);
+  color: var(--c-white);
+}
+
+/* ---- États initiaux des animations (évite FOUC / CLS — voir src/js/animations) ---- */
+.js-anim {
+  opacity: 0;
+}
+html.no-js .js-anim,
+html.reduced-motion .js-anim {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js-anim {
+    opacity: 1;
+  }
+}
+
+/* Utilitaire accessible visuellement masqué */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
