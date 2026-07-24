@@ -50,6 +50,7 @@ export function head(meta) {
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>${escapeHtml(meta.title)}</title>
+<script src="/boot.js"></script>
 <meta name="description" content="${escapeHtml(meta.description)}" />
 <link rel="canonical" href="${canonical}" />
 <meta name="theme-color" content="#0097a9" />
