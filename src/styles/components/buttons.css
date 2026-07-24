@@ -67,6 +67,11 @@
   box-shadow: 0 12px 30px rgba(7, 26, 38, 0.28);
 }
 
+.btn--lg {
+  padding: 0.85em 1.6em;
+  min-height: 56px;
+}
+
 .btn--sm {
   padding: 0.6em 1em;
   font-size: var(--fs-small);

@@ -1,122 +1,89 @@
-# Étape 3 & 4 — Mise en ligne sur Cloudflare Pages
+# Étape 3 & 4 — Mise en ligne sur Vercel
 
-Décisions retenues : **Cloudflare Pages**, **formulaire fonctionnel** (Pages Function +
-Brevo), adresse temporaire **`le-sommer.pages.dev`**.
-
----
-
-## Ce qui est déjà fait
-
-| Élément | Détail |
-|---|---|
-| `functions/api/contact.js` | Endpoint du formulaire. 11 tests de sécurité passés (voir plus bas) |
-| `src/js/modules/form.js` | Validation à la volée, envoi sans rechargement, messages clairs |
-| `public/_headers` | CSP, HSTS, X-Frame-Options… (cahier des charges §12.1) + règles de cache |
-| `public/_redirects` | Redirections 301 depuis les URLs Wix, prêtes pour la bascule |
-| `public/robots.txt` | **Indexation bloquée** tant qu'on est sur l'adresse temporaire |
-| `scripts/generate-sitemap.mjs` | `sitemap.xml` généré automatiquement au build (8 pages) |
-| Commit | `fdbd4ab` — 153 fichiers, prêt à être poussé |
-
-### Tests de sécurité du formulaire (tous passés)
-
-| Scénario | Réponse |
-|---|---|
-| Requête GET | 405 |
-| Honeypot rempli (robot) | 200 silencieux, aucun email envoyé |
-| Envoi en moins de 3 secondes | 200 silencieux, aucun email envoyé |
-| Email / téléphone invalide | 422 |
-| Sujet hors de la liste fermée | 422 |
-| Injection d'en-tête (`\n Bcc:`) | 422 |
-| Message de 5 000 caractères | 422 |
-| Consentement RGPD absent | 422 |
-| Envoi depuis un autre site | 403 |
-
-L'email part en **texte brut** (aucun HTML), l'expéditeur est **toujours notre domaine**, et
-l'adresse du visiteur ne sert qu'en **Reply-To** — jamais en expéditeur, pour éviter
-l'usurpation et le classement en spam.
-
-> **Écart assumé avec le cahier des charges §12.4 :** pas de jeton CSRF. Il supposait des
-> sessions PHP, qui n'existent pas en serverless. Sans authentification ni cookie, un
-> attaquant n'usurpe l'identité de personne — il peut de toute façon appeler l'endpoint
-> directement. La protection pertinente ici est le contrôle d'origine, en place.
+Décisions retenues : **Vercel**, **sans formulaire de contact** (téléphone et email uniquement),
+adresse temporaire `le-sommer.vercel.app`.
 
 ---
 
-## Ce que tu dois faire — dans l'ordre
+## ⚠️ Un point à connaître : la licence Vercel
 
-### 1. Pousser le code sur GitHub ⚠️ bloqué de mon côté
+Le plan gratuit de Vercel (**Hobby**) est réservé à un usage **personnel et non commercial**.
+Les conditions d'utilisation excluent explicitement les sites qui « servent des fins
+commerciales », et Vercel applique cette règle. Un site vitrine d'entreprise qui génère des
+appels et des demandes de devis entre dans cette catégorie.
 
-Le commit est prêt mais **je ne peux pas le pousser** : aucun identifiant GitHub n'est
-enregistré sur cette machine, et je ne dois jamais saisir de mot de passe ou de jeton.
+**Concrètement, deux issues possibles :**
+- rien ne se passe pendant longtemps (c'est le cas le plus fréquent pour un petit site) ;
+- ou Vercel demande un passage au plan **Pro à 20 $/mois**, voire suspend le projet.
 
-**Le plus simple** — ouvre le Terminal et lance :
+**Alternatives sans cette restriction, à effort identique** — le site est désormais 100 %
+statique, il se déploie de la même façon partout :
 
-```bash
-cd ~/Documents/LS && git push -u origin main
-```
+| Hébergeur | Usage commercial | Ce qu'il faut changer |
+|---|---|---|
+| **Netlify** | ✅ autorisé | remplacer `vercel.json` par un `netlify.toml` (5 min) |
+| **Cloudflare Pages** | ✅ autorisé | remettre `public/_headers` + `_redirects` (déjà écrits, dans l'historique Git) |
 
-Git te demandera ton nom d'utilisateur GitHub puis un **jeton d'accès personnel** (à créer
-sur github.com → Settings → Developer settings → Personal access tokens, avec la portée
-`repo`). Le mot de passe GitHub classique ne fonctionne plus depuis 2021.
+Tu décides — je le signale une fois, et on avance avec Vercel comme demandé.
 
-*Alternative :* pousser depuis GitHub Desktop ou VS Code, qui gèrent la connexion tout seuls.
+---
 
-### 2. Créer le compte Brevo (envoi des emails)
+## Ce qui a changé : plus de formulaire
 
-1. Compte gratuit sur [brevo.com](https://www.brevo.com) — 300 emails/jour, serveurs UE.
-2. **Vérifier l'adresse d'expédition** : Brevo envoie un lien de confirmation.
-   Pour cette phase de validation, l'adresse existante `v.lesommer@outlook.fr` suffit.
-3. Récupérer la clé API : *SMTP & API → API Keys → Generate a new API key*.
-   **Garde-la de côté, ne me l'envoie pas** — tu la colleras directement dans Cloudflare.
+Le formulaire de demande de devis est **retiré**. La page `/contact/` présente désormais un
+bloc d'appel direct : téléphone en gros bouton, email en secours, horaires, adresse.
 
-> **À prévoir pour la production :** authentifier le domaine `le-sommer.com` dans Brevo
-> (enregistrements SPF et DKIM). Sans cela, les emails partent avec une signature
-> « au nom de », ce qui nuit à la délivrabilité. À faire au moment de la bascule du domaine,
-> puisque cela demande d'accéder aux DNS.
+**Supprimé du projet :** `functions/api/contact.js`, `src/js/modules/form.js`,
+`src/styles/components/form.css`, la liste des sujets et le `<form>` complet.
 
-### 3. Créer le projet Cloudflare Pages
+**Conséquence agréable :** le site n'a plus aucune partie serveur. Ni compte Brevo, ni clé
+API, ni variable d'environnement, ni fonction serverless. C'est du statique pur — plus simple,
+plus rapide, et plus rien qui puisse tomber en panne côté formulaire.
 
-1. Compte gratuit sur [dash.cloudflare.com](https://dash.cloudflare.com) + **activer la 2FA**.
-2. *Workers & Pages → Create → Pages → Connect to Git* → autoriser GitHub → choisir le dépôt
-   **`alexy2509/Le-Sommer-site`**.
-3. Renseigner **exactement** ces réglages de build :
+Les boutons « Demander un devis » du site restent en place et mènent à `/contact/` : demander
+un devis reste possible, par téléphone ou par email. Dis-moi si tu préfères les renommer
+« Nous contacter ».
 
-   | Champ | Valeur |
+---
+
+## Ce que tu dois faire — 5 minutes
+
+### 1. Créer le projet Vercel
+
+1. Connecte-toi sur [vercel.com](https://vercel.com) (tu as déjà un compte).
+2. **Add New… → Project** → importe le dépôt **`alexy2509/Le-Sommer-site`**.
+   Le dépôt est privé : autorise Vercel à y accéder dans l'écran GitHub.
+3. Vercel lit `vercel.json` à la racine et applique tout seul :
+
+   | Réglage | Valeur (déjà dans `vercel.json`) |
    |---|---|
-   | Project name | `le-sommer` |
-   | Production branch | `main` |
-   | Framework preset | *None* |
    | Build command | `npm run build` |
-   | Build output directory | `dist` |
+   | Output directory | `dist` |
+   | Framework preset | *Other* |
+   | URLs avec `/` final | activé (cohérent avec les liens internes du site) |
 
-4. **Variables d'environnement** (section *Environment variables*, production) :
+   **Une seule chose à saisir à la main** — dans *Settings → Environment Variables* :
 
-   | Nom | Valeur | Type |
-   |---|---|---|
-   | `BREVO_API_KEY` | ta clé Brevo | **Secret** (chiffré) |
-   | `CONTACT_TO` | `v.lesommer@outlook.fr` | Texte |
-   | `CONTACT_FROM` | la même adresse, vérifiée dans Brevo | Texte |
-   | `NODE_VERSION` | `22` | Texte |
+   | Nom | Valeur |
+   |---|---|
+   | `NODE_VERSION` | `22` |
 
-   `NODE_VERSION` est important : sans lui, Cloudflare utilise une version ancienne de Node
-   et la génération d'images échoue.
+   Sans elle, Vercel peut utiliser un Node trop ancien et la génération d'images échoue.
 
-5. *Save and Deploy*. Le premier build prend **3 à 5 minutes** (la préparation des images
-   dure à elle seule environ 1 min 30).
+4. **Deploy**. Compte **3 à 5 minutes** : la préparation des images prend à elle seule ~1 min 30.
 
-### 4. Préviens-moi
+### 2. Préviens-moi avec l'URL
 
-Dès que le site est en ligne, donne-moi l'URL. Je vérifierai :
-les 8 pages, les images, le responsive, **les en-têtes de sécurité réellement servis**, le
-`robots.txt`, le `sitemap.xml`, un **envoi réel du formulaire**, et un **audit Lighthouse**.
+Je vérifierai les 8 pages, les images, le responsive, **les en-têtes de sécurité réellement
+servis**, le `robots.txt`, le `sitemap.xml`, et je lancerai un **audit Lighthouse**.
 
 ---
 
-## Limite de débit (facultatif, plus tard)
+## Rappel : le site n'est pas indexable pour l'instant
 
-L'endpoint accepte une limite de 5 envois par IP et par heure, active uniquement si une base
-KV est liée. Pour l'activer : *Workers & Pages → KV → Create namespace* (`RATE_LIMIT`), puis
-dans les réglages du projet Pages, lier ce namespace sous le nom **`RATE_LIMIT`**.
+`public/robots.txt` bloque volontairement les moteurs de recherche tant qu'on est sur
+l'adresse temporaire — sinon le nouveau site ferait doublon avec le site Wix encore en ligne
+et se pénaliserait lui-même. On l'ouvrira à l'étape 5, au moment de la bascule du domaine.
 
-Sans cette liaison, le formulaire fonctionne normalement — il n'a simplement pas de plafond
-par IP. Le honeypot, la temporisation et le contrôle d'origine restent actifs.
+Les redirections 301 depuis les anciennes URLs Wix sont déjà écrites dans `vercel.json` :
+elles s'activeront d'elles-mêmes le jour où `le-sommer.com` pointera ici.
