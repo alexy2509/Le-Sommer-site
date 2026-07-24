@@ -47,6 +47,24 @@ section.section--inverse h2,
 section.section--inverse h3 {
   color: var(--c-text-inverse);
 }
+/* Mobile : rythme vertical resserré. `--space-section` valait ~80px en haut ET en bas de
+   chaque section, soit 160px perdus entre deux blocs sur un écran de 812px de haut.
+   Placé APRÈS `.section--tight` : à spécificité égale, la dernière déclaration gagne. */
+@media (max-width: 767px) {
+  section {
+    padding-block: 2.5rem;
+  }
+  section.section--tight {
+    padding-block: 1.75rem;
+  }
+  h1,
+  h2 {
+    margin-bottom: var(--space-2xs);
+  }
+  .section-head {
+    margin-bottom: var(--space-sm);
+  }
+}
 
 .stack {
   display: flex;
@@ -104,6 +122,11 @@ section.section--inverse h3 {
   font-weight: 600;
   margin-bottom: var(--space-2xs);
 }
+/* Sur fond sombre ou aplat pétrole, le pétrole ne contraste plus : on passe en blanc plein
+   (le petit texte en blanc translucide tombe sous 4.5:1 sur l'aplat pétrole). */
+.eyebrow--on-dark {
+  color: var(--c-white);
+}
 
 /* ---- Page shell ---- */
 .page {
@@ -115,13 +138,19 @@ section.section--inverse h3 {
   flex: 1;
 }
 
-/* ---- Responsive helpers ---- */
-.hide-mobile {
+/* ---- Responsive helpers ----
+   `.btn` est déclaré dans components.css, importé APRÈS layout.css : à spécificité égale
+   il gagnait et `.hide-mobile` restait sans effet sur les boutons. D'où le sélecteur dédié. */
+.hide-mobile,
+.btn.hide-mobile {
   display: none;
 }
 @media (min-width: 1024px) {
   .hide-mobile {
     display: revert;
+  }
+  .btn.hide-mobile {
+    display: inline-flex;
   }
   .hide-desktop {
     display: none;

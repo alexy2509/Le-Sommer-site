@@ -4,10 +4,6 @@ export const meta = {
   title: 'Mentions légales | LE SOMMER',
   description: "Mentions légales du site LE SOMMER : éditeur, directeur de publication, hébergeur et informations sur l'entreprise (Ergué-Gabéric, 29).",
   path: '/mentions-legales/',
-  breadcrumb: [
-    { label: 'Accueil', path: '/' },
-    { label: 'Mentions légales', path: '/mentions-legales/' },
-  ],
 };
 
 export function content() {
@@ -25,7 +21,7 @@ export function content() {
       Téléphone : <a href="${site.phoneHref}">${site.phoneDisplay}</a><br />
       Email : <a href="mailto:${site.email}">${site.email}</a>
     </address>
-    <p>Numéro de TVA intracommunautaire : à compléter. <!-- [À FOURNIR : n° TVA intracommunautaire, RCS ville d'immatriculation] --></p>
+    <p>Numéro de TVA intracommunautaire : FR38893501379.</p>
 
     <h2>Directeur de la publication</h2>
     <p>${site.founder}, gérant de ${site.legalName}.</p>

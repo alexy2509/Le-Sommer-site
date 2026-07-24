@@ -1,0 +1,118 @@
+/* ==== Qui sommes-nous ? ==== */
+
+/* Mot du gérant + photo de terrain, côte à côte sur desktop. */
+.about-hero {
+  display: grid;
+  gap: var(--space-lg);
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .about-hero {
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: var(--space-xl);
+  }
+}
+.about-hero__lead {
+  font-size: var(--fs-body-lg);
+  color: var(--c-text-muted);
+  margin-bottom: var(--space-md);
+}
+
+/* Lettre du gérant : filet pétrole à gauche, comme une citation posée. */
+.founder-note {
+  position: relative;
+  padding-left: var(--space-md);
+  border-left: 3px solid var(--c-petrol);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-width: 62ch;
+}
+.founder-note p {
+  margin: 0;
+}
+.founder-note__signature {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: var(--space-2xs);
+}
+.founder-note__signature strong {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--c-navy);
+}
+.founder-note__signature span {
+  font-size: var(--fs-small);
+  color: var(--c-text-muted);
+}
+
+/* Photo : coins arrondis + halo pétrole décalé, sans bordure lourde. */
+.about-hero__media {
+  position: relative;
+  margin: 0;
+  max-width: 420px;
+}
+@media (max-width: 1023px) {
+  .about-hero__media {
+    margin-inline: auto;
+  }
+}
+.about-hero__media::before {
+  content: '';
+  position: absolute;
+  inset: var(--space-sm) calc(-1 * var(--space-2xs)) calc(-1 * var(--space-2xs)) var(--space-sm);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(0, 151, 169, 0.16), rgba(7, 26, 38, 0.08));
+  z-index: -1;
+}
+.about-hero__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.about-hero__media figcaption {
+  margin-top: var(--space-2xs);
+  font-size: var(--fs-xsmall);
+  color: var(--c-text-muted);
+}
+
+/* ==== Méthode (3 étapes) ==== */
+.method-steps {
+  counter-reset: step;
+  display: grid;
+  gap: var(--space-lg);
+  list-style: none;
+  padding: 0;
+  max-width: 860px;
+  margin-inline: auto;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .method-steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.method-steps li {
+  position: relative;
+  padding-top: var(--space-md);
+}
+.method-steps li p {
+  margin-inline: auto;
+}
+.method-steps li::before {
+  counter-increment: step;
+  content: counter(step, decimal-leading-zero);
+  font-family: var(--font-mono);
+  color: var(--c-petrol);
+  font-size: var(--fs-small);
+  font-weight: 700;
+  display: block;
+  margin-bottom: var(--space-2xs);
+}
+.method-steps__more {
+  text-align: center;
+  margin: var(--space-lg) 0 0;
+}

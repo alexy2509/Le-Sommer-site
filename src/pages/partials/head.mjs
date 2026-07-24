@@ -33,32 +33,18 @@ function organizationJsonLd() {
   };
 }
 
-function breadcrumbJsonLd(trail) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: trail.map((item, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      name: item.label,
-      ...(item.path ? { item: `${site.domain}${item.path}` } : {}),
-    })),
-  };
-}
-
 /**
  * @param {object} meta
  * @param {string} meta.title - ≤ 60 caractères, "Requête principale | LE SOMMER"
  * @param {string} meta.description - 140-155 caractères
  * @param {string} meta.path - chemin absolu avec trailing slash, ex. "/electricite-industrielle/"
  * @param {string} [meta.ogImage] - chemin absolu de l'image OG 1200x630
- * @param {Array}  [meta.breadcrumb] - trail [{label, path?}]
  * @param {Array}  [meta.jsonLd] - objets JSON-LD additionnels (Service, FAQPage, JobPosting…)
  */
 export function head(meta) {
   const canonical = `${site.domain}${meta.path}`;
   const ogImage = meta.ogImage ? `${site.domain}${meta.ogImage}` : `${site.domain}/assets/img/og-default.jpg`;
-  const jsonLdBlocks = [organizationJsonLd(), ...(meta.breadcrumb ? [breadcrumbJsonLd(meta.breadcrumb)] : []), ...(meta.jsonLd ?? [])];
+  const jsonLdBlocks = [organizationJsonLd(), ...(meta.jsonLd ?? [])];
 
   return `<head>
 <meta charset="UTF-8" />

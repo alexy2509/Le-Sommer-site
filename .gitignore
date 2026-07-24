@@ -1,20 +1,25 @@
+# ---- Dépendances et sorties de build (tout est régénérable) ----
 node_modules/
 dist/
 .pages/
 
-# générés par scripts/prepare-assets.mjs (npm run predev/prebuild) — sources dans src/assets/brand/
+# générés par scripts/prepare-assets.mjs (npm run predev/prebuild) — sources dans src/assets/
 public/assets/
 public/favicon.ico
 public/favicon-*.png
 public/apple-touch-icon.png
 public/site.webmanifest
+# ---- Secrets (ne doivent JAMAIS être versionnés — voir CLAUDE.md 12.4) ----
 api/config.php
 api/vendor/
 .env
 .env*
+
+# ---- Rapports et journaux ----
 *.log
-.DS_Store
 lighthouse-reports/
 
-# Fichiers temporaires / verrous bureautiques
+# ---- Bruit système et bureautique ----
+.DS_Store
+Thumbs.db
 ~$*

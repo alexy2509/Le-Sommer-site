@@ -1,21 +1,17 @@
 import { icon } from '../partials/icons.mjs';
 import { site } from '../partials/site-data.mjs';
 
-const subjects = ['Électricité industrielle', "Matériel d'élevage", 'Dépannage', 'Recrutement', 'Autre'];
+const subjects = ['Électricité industrielle', "Matériel d'élevage", 'Dépannage', 'Recrutement', 'Demande spéciale'];
 
 export const meta = {
   title: 'Contact | LE SOMMER, Ergué-Gabéric (29)',
-  description: "Contactez LE SOMMER à Ergué-Gabéric (29) : téléphone, email et formulaire pour un devis ou un dépannage en électricité industrielle et matériel d'élevage.",
+  description: "Contactez LE SOMMER à Ergué-Gabéric (29) : devis ou dépannage en électricité, ventilation, alimentation, FAF, plomberie et traitement des eaux. SAV 24h/24, 7j/7.",
   path: '/contact/',
-  breadcrumb: [
-    { label: 'Accueil', path: '/' },
-    { label: 'Contact', path: '/contact/' },
-  ],
 };
 
 export function content() {
   return `
-<section class="section--tight">
+<section class="section--tight contact-lead">
   <div class="container container--narrow">
     <p class="eyebrow">Contact</p>
     <h1>Parlons de votre projet ou de votre dépannage</h1>
@@ -23,7 +19,7 @@ export function content() {
   </div>
 </section>
 
-<section class="section--tight">
+<section class="section--tight contact-body">
   <div class="container">
     <div class="contact-grid">
       <div class="contact-info js-anim" data-reveal>
@@ -48,23 +44,17 @@ export function content() {
             <span class="contact-info__value">${site.hoursDisplay}</span>
           </span>
         </div>
-        <div class="contact-map">
-          <a href="${site.mapUrl}" target="_blank" rel="noopener noreferrer" class="contact-map__frame" aria-label="Voir le siège de LE SOMMER sur OpenStreetMap (nouvel onglet)">
-            <picture>
-              <source srcset="/assets/img/carte-localisation.webp" type="image/webp" />
-              <img src="/assets/img/carte-localisation.png" alt="Carte : siège de LE SOMMER au rond-point de Kerourvois à Ergué-Gabéric" width="760" height="460" loading="lazy" />
-            </picture>
-          </a>
-          <div class="contact-map__foot">
-            <span class="contact-map__addr">${icon('pin', 'icon')} ${site.address.street}, ${site.address.postalCode} ${site.address.locality}</span>
-            <a class="contact-map__link" href="${site.mapUrl}" target="_blank" rel="noopener noreferrer">Itinéraire ${icon('arrowRight', 'icon')}</a>
-          </div>
-          <p class="contact-map__attr">© OpenStreetMap contributors</p>
+        <div class="contact-info__card">
+          <span class="contact-info__icon">${icon('pin', 'icon')}</span>
+          <span>
+            <span class="contact-info__label">Adresse</span>
+            <span class="contact-info__value">${site.address.street}<br />${site.address.postalCode} ${site.address.locality}</span>
+          </span>
         </div>
       </div>
 
       <div class="contact-form-wrap js-anim" data-reveal>
-        <form id="contact-form" class="contact-form" method="post" action="/api/contact.php" novalidate>
+        <form id="contact-form" class="contact-form" method="post" action="/api/contact" novalidate>
           <p class="form-status" data-form-status role="status" aria-live="polite"></p>
 
           <!-- Honeypot anti-spam : ne pas remplir. Masqué + hors flux clavier/lecteur d'écran. -->
@@ -72,7 +62,6 @@ export function content() {
             <label for="website">Ne pas remplir ce champ</label>
             <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
           </div>
-          <input type="hidden" name="csrf_token" value="" data-csrf />
           <input type="hidden" name="form_time" value="" data-form-time />
 
           <div class="form-row">

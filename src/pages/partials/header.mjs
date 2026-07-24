@@ -15,7 +15,10 @@ export function header(current) {
     .join('');
 
   const mobileLinks = [{ label: 'Accueil', path: '/' }, ...topLinks]
-    .map((item) => `<li><a href="${item.path}" ${isActive(item.path, current) ? 'aria-current="page"' : ''}>${escapeHtml(item.label)}</a></li>`)
+    .map(
+      (item) =>
+        `<li><a href="${item.path}" ${isActive(item.path, current) ? 'aria-current="page"' : ''}><span>${escapeHtml(item.label)}</span>${icon('chevronRight', 'icon')}</a></li>`,
+    )
     .join('');
 
   return `<a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -25,7 +28,7 @@ export function header(current) {
       <picture>
         <source srcset="/assets/brand/logo-header.avif" type="image/avif" />
         <source srcset="/assets/brand/logo-header.webp" type="image/webp" />
-        <img src="/assets/brand/logo-header.png" alt="LE SOMMER, électricité industrielle et matériel d'élevage" width="640" height="445" />
+        <img src="/assets/brand/logo-header.png" alt="LE SOMMER, électricité industrielle et matériel d'élevage" width="640" height="462" />
       </picture>
     </a>
 
@@ -52,18 +55,35 @@ export function header(current) {
 
 <div class="mobile-nav" id="mobile-nav" data-mobile-nav role="dialog" aria-modal="true" aria-label="Menu de navigation">
   <div class="mobile-nav__head">
-    <span class="visually-hidden">Menu</span>
-    <button type="button" data-mobile-nav-close aria-label="Fermer le menu" class="burger">${icon('close', 'icon')}</button>
+    <a href="/" class="mobile-nav__logo" aria-label="LE SOMMER, accueil">
+      <picture>
+        <source srcset="/assets/brand/logo-header.webp" type="image/webp" />
+        <img src="/assets/brand/logo-header.png" alt="LE SOMMER" width="640" height="462" />
+      </picture>
+    </a>
+    <button type="button" data-mobile-nav-close aria-label="Fermer le menu" class="mobile-nav__close">${icon('close', 'icon')}</button>
   </div>
-  <ul class="mobile-nav__list">
-    ${mobileLinks}
-  </ul>
-  <a class="btn btn--primary btn--block" style="margin-top:1.5rem" href="/contact/">Demander un devis</a>
-  <a class="btn btn--secondary btn--block" style="margin-top:0.75rem" href="${site.phoneHref}">${icon('phone', 'icon')} ${site.phoneDisplay}</a>
-</div>
 
-<div class="mobile-actionbar">
-  <a class="mobile-actionbar__call" href="${site.phoneHref}">${icon('phone', 'icon')} Appeler 24h/24</a>
-  <a class="mobile-actionbar__quote" href="/contact/">${icon('arrowRight', 'icon')} Devis</a>
+  <nav class="mobile-nav__scroll" aria-label="Navigation">
+    <ul class="mobile-nav__list">
+      ${mobileLinks}
+    </ul>
+  </nav>
+
+  <div class="mobile-nav__foot">
+    <p class="mobile-nav__foot-eyebrow">Une panne ? Un projet ?</p>
+    <a class="mobile-nav__phone" href="${site.phoneHref}">
+      <span class="mobile-nav__phone-icon">${icon('phone', 'icon')}</span>
+      <span class="mobile-nav__phone-text">
+        <span class="mobile-nav__phone-number">${site.phoneDisplay}</span>
+        <span class="mobile-nav__phone-sub">Dépannage 24h/24, 7j/7</span>
+      </span>
+    </a>
+    <a class="btn btn--primary btn--block" href="/contact/">Demander un devis ${icon('arrowRight', 'icon')}</a>
+    <div class="mobile-nav__social">
+      <a href="${site.sameAs[0]}" target="_blank" rel="noopener noreferrer" aria-label="LE SOMMER sur Facebook">${icon('facebook', 'icon')}</a>
+      <a href="${site.sameAs[1]}" target="_blank" rel="noopener noreferrer" aria-label="LE SOMMER sur LinkedIn">${icon('linkedin', 'icon')}</a>
+    </div>
+  </div>
 </div>`;
 }

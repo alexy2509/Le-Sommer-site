@@ -1,0 +1,12 @@
+# Redirections — format Cloudflare Pages (source  destination  code).
+#
+# Les redirections 301 depuis les anciennes URLs Wix (CLAUDE.md §10.7) ne seront ACTIVES
+# qu'une fois le domaine le-sommer.com pointé ici. Elles sont écrites d'avance pour que la
+# bascule ne perde aucun référencement : au jour J, il n'y aura rien à rédiger.
+
+/s-projects-side-by-side   /electricite-industrielle/   301
+/aviculture                /materiel-elevage/           301
+/porcin                    /materiel-elevage/           301
+/bovin                     /materiel-elevage/           301
+/projects-8                /materiel-elevage/           301
+/contactez-moi             /contact/                    301

@@ -20,11 +20,10 @@ export const site = {
     region: 'Bretagne',
     country: 'FR',
   },
-  // Coordonnées vérifiées via OpenStreetMap Nominatim (Rond-Point de Kerourvois).
+  // Coordonnées GPS vérifiées (Rond-Point de Kerourvois, Ergué-Gabéric) — utilisées pour le JSON-LD.
   geo: { latitude: 48.0014699, longitude: -4.0460625 },
   hoursDisplay: '24h/24, 7j/7',
-  mapUrl: 'https://www.openstreetmap.org/?mlat=48.0014699&mlon=-4.0460625#map=17/48.00147/-4.04606',
-  areaServed: ['Ergué-Gabéric', 'Quimper', 'Finistère', 'Bretagne'],
+  areaServed: ['Ergué-Gabéric', 'Quimper', 'Finistère'],
   sameAs: ['https://www.facebook.com/profile.php?id=61565894530617', 'https://www.linkedin.com/company/le-sommer/'],
   hostingProvider: {
     name: 'Hostinger International Ltd',
@@ -42,7 +41,8 @@ export const nav = {
     children: [
       { label: 'Armoires électriques sur-mesure', path: '/electricite-industrielle/#armoires' },
       { label: 'Raccordement', path: '/electricite-industrielle/#raccordement' },
-      { label: 'Dépannage électrique', path: '/electricite-industrielle/#depannage' },
+      { label: 'Éclairage', path: '/electricite-industrielle/#eclairage' },
+      { label: 'Dépannage & SAV 24h/24', path: '/electricite-industrielle/#depannage' },
     ],
   },
   elevage: {
@@ -52,13 +52,13 @@ export const nav = {
       { label: 'Aviculture', path: '/materiel-elevage/#aviculture' },
       { label: 'Porcin', path: '/materiel-elevage/#porcin' },
       { label: 'Bovin', path: '/materiel-elevage/#bovin' },
+      { label: 'Ventilation', path: '/materiel-elevage/#ventilation' },
       { label: 'FAF & stockage', path: '/materiel-elevage/#faf-stockage' },
     ],
   },
   simple: [
-    { label: 'À propos', path: '/a-propos/' },
+    { label: 'Qui sommes-nous ?', path: '/a-propos/' },
     { label: 'Recrutement', path: '/recrutement/' },
-    { label: 'Contact', path: '/contact/' },
   ],
 };
 
@@ -68,6 +68,10 @@ export const partners = [
   { name: 'Landmeco', slug: 'landmeco', url: 'https://landmeco.com', logo: '/assets/partners/landmeco' },
   { name: 'Skiold', slug: 'skiold', url: 'https://skiold.com/fr', logo: '/assets/partners/skiold' },
   { name: 'CBM', slug: 'cbm', url: 'https://eu.cbmlighting.com/fr/', logo: '/assets/partners/cbm' },
+  { name: 'S+H Nolting', slug: 'nolting', url: 'https://www.gustav-nolting-gmbh.de/en/produkte_uebersicht&kat_id=1', logo: '/assets/partners/nolting' },
+  { name: 'Systel', slug: 'systel', url: 'https://www.systel-international.com', logo: '/assets/partners/systel' },
+  { name: 'Lubing', slug: 'lubing', url: 'https://www.lubing.fr', logo: '/assets/partners/lubing' },
+  { name: 'Sodalec', slug: 'sodalec', url: 'https://sodis-france.fr', logo: '/assets/partners/sodalec' },
 ];
 
 export const footerSitemap = [
@@ -75,14 +79,15 @@ export const footerSitemap = [
   { label: 'Électricité industrielle', path: '/electricite-industrielle/' },
   { label: 'Armoires électriques sur-mesure', path: '/electricite-industrielle/#armoires' },
   { label: 'Raccordement', path: '/electricite-industrielle/#raccordement' },
-  { label: 'Dépannage électrique', path: '/electricite-industrielle/#depannage' },
+  { label: 'Éclairage', path: '/electricite-industrielle/#eclairage' },
+  { label: 'Dépannage & SAV 24h/24', path: '/electricite-industrielle/#depannage' },
   { label: "Matériel d'élevage", path: '/materiel-elevage/' },
   { label: 'Aviculture', path: '/materiel-elevage/#aviculture' },
   { label: 'Porcin', path: '/materiel-elevage/#porcin' },
   { label: 'Bovin', path: '/materiel-elevage/#bovin' },
+  { label: 'Ventilation', path: '/materiel-elevage/#ventilation' },
   { label: 'FAF & stockage', path: '/materiel-elevage/#faf-stockage' },
   { label: 'À propos', path: '/a-propos/' },
-  { label: "Zone d'intervention", path: '/zone-intervention/' },
   { label: 'Recrutement', path: '/recrutement/' },
   { label: 'Contact', path: '/contact/' },
   { label: 'Mentions légales', path: '/mentions-legales/' },

@@ -1,0 +1,89 @@
+/* ==== Layout page service (contenu + colonne latérale) ==== */
+.prose-grid {
+  display: grid;
+  gap: var(--space-lg);
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .prose-grid {
+    grid-template-columns: 1.7fr 1fr;
+  }
+  .prose-grid__aside {
+    position: sticky;
+    top: 104px;
+  }
+}
+.prose-grid__main h2 {
+  margin-top: var(--space-lg);
+}
+.prose-grid__main h2:first-child {
+  margin-top: 0;
+}
+.prose-grid__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.side-card {
+  background: var(--c-bg-alt);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+}
+.side-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: var(--space-sm);
+}
+.side-card__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  font-size: var(--fs-small);
+}
+.side-card__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+}
+.side-card__list svg {
+  color: var(--c-green);
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.side-card--contact {
+  background: var(--c-navy);
+  color: var(--c-white);
+  border-color: var(--c-navy);
+  text-align: center;
+}
+.side-card--contact h3 {
+  color: var(--c-white);
+}
+.side-card--contact p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: var(--fs-small);
+  margin-bottom: var(--space-sm);
+}
+.side-card--contact .btn {
+  margin-bottom: var(--space-sm);
+}
+.side-card__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--c-white);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.05rem;
+}
+.side-card__phone svg {
+  width: 18px;
+  height: 18px;
+  color: var(--c-green);
+}
+

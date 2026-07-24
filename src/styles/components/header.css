@@ -1,0 +1,182 @@
+/* ==== Header ==== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  /* Verre dépoli translucide : se fond dans la page, rendu moderne. */
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid transparent;
+  transition: background-color var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+.site-header.is-scrolled {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(7, 26, 38, 0.08);
+  box-shadow: var(--shadow-sm);
+}
+.site-header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-block: var(--space-2xs);
+  min-height: 76px;
+}
+.site-header__logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.site-header__logo img {
+  height: 58px;
+  width: auto;
+}
+@media (min-width: 768px) {
+  .site-header__logo img {
+    height: 64px;
+  }
+}
+
+.main-nav {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .main-nav {
+    display: flex;
+  }
+  .main-nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .main-nav > ul > li {
+    position: relative;
+  }
+  .main-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--c-navy);
+    font-weight: 600;
+    font-size: var(--fs-small);
+    text-decoration: none;
+    padding: var(--space-2xs) 0;
+  }
+  .main-nav a:hover,
+  .main-nav a[aria-current='page'] {
+    color: var(--c-petrol);
+  }
+  .main-nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+/* Coordonnées mises en évidence : pastille pétrole cliquable dans le header.
+   Sous 560px elle se réduit à l'icône seule : le numéro reste accessible en un tap
+   sur mobile (il n'y a plus de barre d'action fixe en bas d'écran). */
+.site-header__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 0.4em 0.9em 0.4em 0.5em;
+  border-radius: 999px;
+  border: 1.5px solid var(--c-petrol);
+  background: rgba(0, 151, 169, 0.06);
+  color: var(--c-navy);
+  text-decoration: none;
+  transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.site-header__phone:hover {
+  background: rgba(0, 151, 169, 0.12);
+  box-shadow: var(--shadow-sm);
+  color: var(--c-navy);
+}
+.site-header__phone-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--c-petrol);
+  color: var(--c-white);
+  flex-shrink: 0;
+}
+.site-header__phone-icon svg {
+  width: 17px;
+  height: 17px;
+}
+.site-header__phone-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.site-header__phone-label {
+  font-size: 0.6875rem;
+  color: var(--c-text-muted);
+  font-weight: 500;
+}
+.site-header__phone-number {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--c-navy);
+  letter-spacing: 0.01em;
+}
+/* Sous 900px on masque le libellé secondaire pour garder une pastille compacte. */
+@media (max-width: 899px) {
+  .site-header__phone-label {
+    display: none;
+  }
+}
+/* Sous 560px : icône seule, cible tactile 44px. */
+@media (max-width: 559px) {
+  .site-header__phone {
+    padding: 0;
+    border: none;
+    background: none;
+  }
+  .site-header__phone-text {
+    display: none;
+  }
+  .site-header__phone-icon {
+    width: 44px;
+    height: 44px;
+  }
+  .site-header__phone-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+@media (min-width: 1024px) {
+  .burger {
+    display: none;
+  }
+}
+.burger svg {
+  width: 22px;
+  height: 22px;
+}
+

@@ -1,0 +1,140 @@
+/* ==== Bloc de contact final (CTA + zone d'intervention réunis) ====
+   La section `.section-contact` porte le fond : une bande sombre PLEINE LARGEUR, sans
+   coins arrondis — elle se fond dans la page (et enchaîne naturellement avec le footer
+   bleu nuit) au lieu de flotter comme un panneau posé sur le blanc. */
+.section-contact {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(135deg, var(--c-navy) 0%, var(--c-navy-soft) 58%, #08202f 100%);
+  color: var(--c-text-inverse);
+}
+/* Halo pétrole, côté carte. */
+.section-contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(55% 80% at 82% 45%, rgba(0, 151, 169, 0.26) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* Filet pétrole en haut de la bande : rappel du trait « circuit » de la DA. */
+.section-contact::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--c-petrol) 25%, var(--c-petrol) 75%, transparent);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.contact-band {
+  display: grid;
+  gap: var(--space-md);
+}
+/* Sans carte : le texte et les boutons se répartissent sur une ligne. */
+@media (min-width: 768px) {
+  .contact-band:not(.contact-band--with-map) {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-xl);
+  }
+}
+/* Avec carte : deux colonnes, l'appel à l'action à gauche, la zone à droite. */
+@media (min-width: 1024px) {
+  .contact-band--with-map {
+    grid-template-columns: 1fr 0.92fr;
+    align-items: center;
+    gap: var(--space-xl);
+  }
+}
+.contact-band__title {
+  color: var(--c-white);
+  margin: 0 0 var(--space-2xs);
+}
+.contact-band__text {
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+  max-width: 46ch;
+}
+.contact-band__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+/* Sans carte, les boutons occupent la 2e colonne : pas de marge haute sur desktop. */
+@media (min-width: 768px) {
+  .contact-band:not(.contact-band--with-map) .contact-band__actions {
+    margin-top: 0;
+  }
+}
+
+/* ---- Colonne zone d'intervention ---- */
+.contact-band__zone {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: var(--space-md);
+}
+@media (min-width: 1024px) {
+  .contact-band__zone {
+    border-top: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 0;
+    padding-left: var(--space-xl);
+  }
+}
+.contact-band__zone-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xsmall);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-white);
+}
+.contact-band__zone-title .icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--c-petrol);
+}
+.contact-band__zone-text {
+  margin: 0;
+  font-size: var(--fs-small);
+  color: rgba(255, 255, 255, 0.72);
+}
+/* La carte n'a pas besoin de son propre panneau ici. */
+.contact-band .bretagne-zone {
+  background: none;
+  border: none;
+  padding: var(--space-2xs) 0 0;
+}
+.contact-band .bretagne-zone__svg {
+  max-width: none;
+}
+
+/* Mobile : le paragraphe de zone répète le titre et la carte — retiré de l'affichage SANS
+   `display: none`, pour rester lu par les lecteurs d'écran et indexé normalement. */
+@media (max-width: 767px) {
+  .contact-band__zone-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .contact-band__actions {
+    margin-top: var(--space-sm);
+  }
+  .contact-band__actions .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}

@@ -1,6 +1,51 @@
+/*
+  Point d'entrée unique des styles — bundlé et minifié par Vite.
+
+  L'ORDRE DES IMPORTS FAIT LA CASCADE : ne pas réordonner sans vérifier le rendu.
+  1. tokens / fonts / base : variables, polices, éléments HTML nus
+  2. layout               : conteneurs, sections, utilitaires responsive
+  3. components/          : briques réutilisées sur plusieurs pages
+  4. pages/               : styles propres à une page ou à un bloc de page
+  Les composants passent après layout (une carte doit pouvoir surcharger un utilitaire),
+  et les pages en dernier (une page doit pouvoir ajuster un composant).
+*/
+
+/* ---- Fondations ---- */
 @import './tokens.css';
 @import './fonts.css';
 @import './base.css';
 @import './layout.css';
-@import './components.css';
-@import './pages.css';
+
+/* ---- Composants ---- */
+@import './components/buttons.css';
+@import './components/cards.css';
+@import './components/trust-bar.css';
+@import './components/header.css';
+@import './components/mobile-nav.css';
+@import './components/faq.css';
+@import './components/badges.css';
+@import './components/partners-carousel.css';
+@import './components/form.css';
+@import './components/footer.css';
+@import './components/contact-band.css';
+@import './components/lightbox.css';
+@import './components/hero.css';
+@import './components/emergency-band.css';
+
+/* ---- Pages & blocs de page ---- */
+@import './pages/circuit-signature.css';
+@import './pages/home-poles.css';
+@import './pages/bretagne-map.css';
+@import './pages/beyond-band.css';
+@import './pages/silo.css';
+@import './pages/work-gallery.css';
+@import './pages/service-layout.css';
+@import './pages/silo-crosslink.css';
+@import './pages/recruitment-band.css';
+@import './pages/recruitment-media.css';
+@import './pages/photo-carousel.css';
+@import './pages/recruitment.css';
+@import './pages/contact.css';
+@import './pages/legal.css';
+@import './pages/error-404.css';
+@import './pages/about.css';

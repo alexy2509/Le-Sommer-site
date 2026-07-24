@@ -1,0 +1,210 @@
+/* ==== Hero de l'accueil ====
+   Mosaïque de réalisations fournie par le client, en deux cadrages : paysage (desktop) et
+   portrait (mobile), servis via <picture media>. Aucun recadrage CSS : chaque variante est
+   déjà composée pour son orientation.
+
+   Le voile est un dégradé bleu nuit → pétrole → transparent : dense là où se pose le texte,
+   il s'efface sur la mosaïque pour la laisser voir. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  /* Remplit exactement l'écran sous le header : rien de la suite ne dépasse au chargement. */
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+  display: flex;
+  align-items: center;
+  color: var(--c-white);
+}
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--c-navy);
+}
+.hero__bg picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.hero__bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.hero__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Dense sous la colonne de texte (elle s'arrête vers 53 % de la largeur), puis vire au
+     pétrole et s'efface : mesuré, le titre tient 5,3:1 sur la zone la plus claire du montage.
+     Ne pas raccourcir l'arrêt à 34 % sans revérifier les contrastes. */
+  background: linear-gradient(
+    100deg,
+    rgba(7, 26, 38, 0.95) 0%,
+    rgba(7, 26, 38, 0.9) 34%,
+    rgba(1, 86, 99, 0.72) 56%,
+    rgba(0, 151, 169, 0.3) 78%,
+    rgba(0, 151, 169, 0) 100%
+  );
+}
+/* Colonne de texte : alignée sur la grille de la page (dans .container), jamais centrée —
+   elle doit rester dans la partie dense du dégradé. */
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  padding-block: var(--space-xl);
+  max-width: 600px;
+}
+.hero__eyebrow {
+  color: #7fd4de;
+}
+.hero__title {
+  color: var(--c-white);
+  font-size: clamp(2.75rem, 7vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin: var(--space-2xs) 0 var(--space-sm);
+}
+.hero__tagline {
+  font-size: var(--fs-body-lg);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 500;
+  max-width: 36ch;
+  margin-bottom: var(--space-md);
+}
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+.hero .btn--secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.55);
+  color: var(--c-white);
+}
+.hero .btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--c-white);
+  color: var(--c-white);
+}
+
+/* Mobile : mosaïque portrait, texte calé en HAUT. Le voile est dense derrière le texte
+   puis s'allège vers le bas pour laisser la mosaïque respirer, en restant assez sombre
+   pour que la transition avec la section suivante ne jure pas. */
+@media (max-width: 767px) {
+  .hero {
+    min-height: min(88vh, 720px);
+    align-items: flex-start;
+  }
+  .hero__bg::after {
+    background: linear-gradient(
+      180deg,
+      rgba(7, 26, 38, 0.96) 0%,
+      rgba(7, 26, 38, 0.9) 34%,
+      rgba(1, 74, 86, 0.72) 58%,
+      rgba(7, 26, 38, 0.5) 82%,
+      rgba(7, 26, 38, 0.42) 100%
+    );
+  }
+  .hero__inner {
+    padding-block: var(--space-lg) var(--space-xl);
+    max-width: none;
+  }
+  .hero__title {
+    font-size: clamp(2.5rem, 13vw, 3.5rem);
+  }
+  .hero__tagline {
+    margin-bottom: var(--space-sm);
+  }
+  .hero__actions .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+/* Badge dépannage 24/7 dans le hero */
+.hero__emergency {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: 999px;
+  background: rgba(43, 203, 127, 0.16);
+  border: 1.5px solid var(--c-green);
+  margin-bottom: var(--space-md);
+}
+.hero__emergency .hero__emergency-dot {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c-green);
+  flex-shrink: 0;
+}
+.hero__emergency .hero__emergency-dot::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 2px solid var(--c-green);
+  animation: pulse-ring 2s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__emergency .hero__emergency-dot::after {
+    animation: none;
+  }
+}
+.hero__emergency strong {
+  color: var(--c-white);
+  font-family: var(--font-display);
+  font-size: var(--fs-small);
+}
+
+/* ---- Entrée du hero : cascade discrète au chargement (une seule fois) ----
+   Uniquement transform/opacity : aucun impact CLS, et le LCP (l'image de fond) n'est pas
+   concerné. Désactivée si l'utilisateur préfère réduire les animations. */
+.hero__inner > * {
+  animation: hero-rise 0.55s cubic-bezier(0.2, 0.6, 0.3, 1) both;
+}
+.hero__inner > :nth-child(2) {
+  animation-delay: 70ms;
+}
+.hero__inner > :nth-child(3) {
+  animation-delay: 140ms;
+}
+.hero__inner > :nth-child(4) {
+  animation-delay: 210ms;
+}
+.hero__inner > :nth-child(5) {
+  animation-delay: 280ms;
+}
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__inner > * {
+    animation: none;
+  }
+}

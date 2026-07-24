@@ -1,27 +1,9 @@
 import { icon } from '../partials/icons.mjs';
 import { site } from '../partials/site-data.mjs';
-import { ctaBand, photoCarousel } from '../partials/blocks.mjs';
-
-const realisations = [
-  {
-    slug: 'armoire',
-    title: 'Armoire électrique',
-    text: "Nous assemblons votre armoire sur-mesure avec l'aide d'un bureau d'étude indépendant, pour répondre à vos attentes et à votre projet.",
-    alt: 'Armoire électrique sur-mesure assemblée en atelier par LE SOMMER',
-  },
-  {
-    slug: 'raccordement',
-    title: 'Raccordement',
-    text: "Avec l'aide de nos équipes en amont, nous raccordons une armoire ou un automatisme dans des délais très brefs.",
-    alt: "Raccordement d'armoires et d'automatismes sur une installation d'élevage",
-  },
-  {
-    slug: 'automatisme',
-    title: 'Dépannage électrique',
-    text: 'Grâce à nos techniciens spécialisés en matériel électrique et en automatisme, nous assurons un service après-vente et un dépannage dans les meilleurs délais.',
-    alt: "Armoire d'automatisme industriel installée par LE SOMMER",
-  },
-];
+import { contactBand, photoCarousel } from '../partials/blocks/index.mjs';
+// Slides et photos décrits une seule fois dans blocks/work-gallery.data.mjs, avec les sources
+// que le script de préparation des assets transforme en images responsives.
+import { carouselPhotos as realisations } from '../partials/blocks/work-gallery.data.mjs';
 
 const jobTitle = 'Technicien Monteur Dépanneur H/F';
 const mailtoSubject = encodeURIComponent('Candidature Technicien Monteur Dépanneur H/F');
@@ -59,10 +41,6 @@ export const meta = {
   title: 'Emploi Technicien Monteur Dépanneur (F/H) | LE SOMMER',
   description: "LE SOMMER recrute un Technicien Monteur Dépanneur H/F en CDI à Ergué-Gabéric (29) : véhicule de fonction, travail en journée, à partir de 13 €/h. Postulez par email.",
   path: '/recrutement/',
-  breadcrumb: [
-    { label: 'Accueil', path: '/' },
-    { label: 'Recrutement', path: '/recrutement/' },
-  ],
   jsonLd: [jobPosting],
 };
 
@@ -81,37 +59,30 @@ export function content() {
           <span class="job-meta__item">${icon('clock', 'icon')} Travail en journée</span>
           <span class="job-meta__item">${icon('pin', 'icon')} Ergué-Gabéric (29)</span>
         </div>
-        <p style="font-size:var(--fs-body-lg)">LE SOMMER, entreprise en développement spécialisée en électricité industrielle et matériel d'élevage, recherche un Technicien Monteur Dépanneur pour renforcer ses équipes.</p>
-        <p>Vous réaliserez des armoires sur-mesure, leur raccordement et leur installation, et interviendrez en dépannage des installations de nos clients.</p>
+        <p style="font-size:var(--fs-body-lg)">LE SOMMER, entreprise en développement spécialisée en électricité industrielle, matériel d'élevage, ventilation et fabrique d'aliment à la ferme, recherche un Technicien Monteur Dépanneur pour renforcer ses équipes.</p>
+
+        <div class="js-anim" data-reveal>
+          <h2>Vos missions</h2>
+          <ul>
+            <li>Montage et installation de matériel électrique et d'élevage</li>
+            <li>Raccordement d'armoires et d'automatismes</li>
+            <li>Dépannage d'installations chez nos clients industriels et éleveurs</li>
+            <li>Assistance et service après-vente</li>
+          </ul>
+        </div>
+        <div class="js-anim" data-reveal>
+          <h2>Profil recherché</h2>
+          <ul>
+            <li>Bac+2 souhaité (BTS/DUT)</li>
+            <li>1 an d'expérience en montage souhaité</li>
+            <li>Compétences en électromécanique / maintenance appréciées</li>
+            <li>Une sensibilité au monde agricole et de l'élevage est un plus</li>
+          </ul>
+        </div>
       </div>
       <div class="recruit-hero__media">
         <p class="eyebrow">Le métier au quotidien</p>
         ${photoCarousel(realisations)}
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--tight">
-  <div class="container">
-    <div class="job-columns">
-      <div class="js-anim" data-reveal>
-        <h2>Vos missions</h2>
-        <ul>
-          <li>Montage et installation de matériel électrique et d'élevage</li>
-          <li>Raccordement d'armoires et d'automatismes</li>
-          <li>Dépannage d'installations chez nos clients industriels et éleveurs</li>
-          <li>Assistance et service après-vente</li>
-        </ul>
-      </div>
-      <div class="js-anim" data-reveal>
-        <h2>Profil recherché</h2>
-        <ul>
-          <li>Bac+2 souhaité (BTS/DUT)</li>
-          <li>1 an d'expérience en montage souhaité</li>
-          <li>Compétences en électromécanique / maintenance appréciées</li>
-          <li>Une sensibilité au monde agricole et de l'élevage est un plus</li>
-        </ul>
       </div>
     </div>
   </div>
@@ -135,7 +106,7 @@ export function content() {
   </div>
 </section>
 
-<section>
-  <div class="container">${ctaBand({ title: 'Une question sur le poste ?', text: 'Appelez-nous, nous vous répondrons directement.', primaryLabel: 'Nous contacter' })}</div>
+<section class="section-contact">
+  <div class="container">${contactBand({ title: 'Une question sur le poste ?', text: 'Appelez-nous, nous vous répondrons directement.', primaryLabel: 'Nous contacter' })}</div>
 </section>`;
 }

@@ -1,0 +1,25 @@
+/* ==== Recrutement ==== */
+.job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin: var(--space-sm) 0 var(--space-md);
+}
+.job-meta__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-small);
+  color: var(--c-text-muted);
+}
+.job-meta__item svg {
+  width: 16px;
+  height: 16px;
+  color: var(--c-petrol);
+}
+/* Colonne de gauche : les sections missions / profil s'enchaînent sous l'intro. */
+.recruit-hero__intro h2 {
+  font-size: var(--fs-h3);
+  margin: var(--space-lg) 0 var(--space-2xs);
+}
+

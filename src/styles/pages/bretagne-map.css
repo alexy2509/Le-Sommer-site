@@ -1,0 +1,173 @@
+/* Plan de la Bretagne (inline SVG, aucune carte tierce). */
+.bretagne-zone {
+  margin: 0;
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  background: radial-gradient(120% 100% at 30% 30%, var(--c-navy-soft) 0%, var(--c-navy) 70%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+@media (min-width: 1024px) {
+  .bretagne-zone {
+    padding: var(--space-lg) var(--space-xl);
+  }
+}
+.bretagne-zone__svg {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  margin-inline: auto;
+  display: block;
+  overflow: visible;
+}
+
+/* Départements limitrophes : remplissage discret, contours nets sur le fond bleu nuit. */
+.bretagne-zone__dept {
+  fill: rgba(255, 255, 255, 0.07);
+  stroke: none;
+  transition: fill var(--transition);
+}
+.bretagne-zone__outline path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.42);
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  transition: stroke var(--transition);
+}
+/* Îles (Ouessant, Sein, Groix, Belle-Île…) : jamais mises en avant, hors zone d'intervention. */
+.bretagne-zone__island {
+  fill: rgba(255, 255, 255, 0.06);
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 1;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Aura : dégradé rayonnant depuis le Finistère vers les départements limitrophes,
+   découpé sur la masse continentale (clip-path) pour ne pas déborder en mer. */
+.bretagne-zone__aura-in {
+  stop-color: var(--c-petrol);
+  stop-opacity: 0.55;
+}
+.bretagne-zone__aura-mid {
+  stop-color: var(--c-petrol);
+  stop-opacity: 0.22;
+}
+.bretagne-zone__aura-out {
+  stop-color: var(--c-petrol);
+  stop-opacity: 0;
+}
+.bretagne-zone__aura-in,
+.bretagne-zone__aura-mid {
+  transition: stop-opacity var(--transition);
+}
+
+/* Finistère : dégradé pétrole (et non aplat), détouré blanc, légèrement irradiant. */
+.bretagne-zone__fin-0 {
+  stop-color: #1fbdd0;
+}
+.bretagne-zone__fin-1 {
+  stop-color: var(--c-petrol);
+}
+.bretagne-zone__fin-0,
+.bretagne-zone__fin-1 {
+  transition: stop-color var(--transition);
+}
+.bretagne-zone__dept--finistere {
+  stroke: #ffffff;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 10px rgba(0, 151, 169, 0.5));
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: filter var(--transition), transform var(--transition);
+}
+
+/* Survol : seule la surface du Finistère déclenche l'animation (pas le bloc entier).
+   La règle directe suffit à l'effet principal ; :has() enrichit la scène (aura, îles, repère)
+   là où il est supporté, et se dégrade proprement ailleurs. */
+/* Deux ombres superposées : une serrée qui souligne le trait de côte, une large qui diffuse.
+   Un seul drop-shadow plus large étalerait la même lumière et paraîtrait au contraire plus terne. */
+.bretagne-zone__dept--finistere:hover {
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 7px rgba(90, 232, 246, 0.95)) drop-shadow(0 0 30px rgba(0, 151, 169, 0.8));
+}
+.bretagne-zone__svg:has(.bretagne-zone__dept--finistere:hover) .bretagne-zone__fin-0 {
+  stop-color: #6ceefb;
+}
+.bretagne-zone__svg:has(.bretagne-zone__dept--finistere:hover) .bretagne-zone__fin-1 {
+  stop-color: #12b0c4;
+}
+.bretagne-zone__svg:has(.bretagne-zone__dept--finistere:hover) .bretagne-zone__aura-in {
+  stop-opacity: 0.75;
+}
+.bretagne-zone__svg:has(.bretagne-zone__dept--finistere:hover) .bretagne-zone__aura-mid {
+  stop-opacity: 0.34;
+}
+/* Les départements voisins s'estompent pour laisser la zone d'intervention dominer. */
+.bretagne-zone__svg:has(.bretagne-zone__dept--finistere:hover) .bretagne-zone__dept {
+  fill: rgba(255, 255, 255, 0.05);
+}
+.bretagne-zone__svg:has(.bretagne-zone__dept--finistere:hover) .bretagne-zone__outline path {
+  stroke: rgba(255, 255, 255, 0.28);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bretagne-zone__dept--finistere:hover {
+    transform: none;
+  }
+}
+
+/* Repère du siège : Ergué-Gabéric. */
+.bretagne-zone__pin-halo {
+  fill: rgba(43, 203, 127, 0.28);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bz-pulse 2.8s ease-out infinite;
+}
+.bretagne-zone__pin-ring {
+  fill: rgba(7, 26, 38, 0.55);
+  stroke: #ffffff;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.bretagne-zone__pin-dot {
+  fill: var(--c-green);
+}
+@keyframes bz-pulse {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.85;
+  }
+  70%,
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bretagne-zone__pin-halo {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+.bretagne-zone__label {
+  fill: var(--c-white);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.02em;
+  paint-order: stroke;
+  stroke: rgba(7, 26, 38, 0.65);
+  stroke-width: 5;
+  stroke-linejoin: round;
+}
+.bretagne-zone__caption {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-small);
+  color: var(--c-white);
+}
+

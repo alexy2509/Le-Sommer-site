@@ -1,0 +1,22 @@
+# En-têtes de sécurité — équivalent Cloudflare Pages du .htaccess prévu par CLAUDE.md §12.1.
+# Un seul point de vérité : ne pas dupliquer ces règles ailleurs.
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  # CSP stricte : aucun script/style externe, aucun inline. `connect-src 'self'` autorise
+  # le seul appel du site : le formulaire vers /api/contact.
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+
+# Assets fingerprintés par Vite : immuables, cache maximal.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Le HTML doit toujours être revalidé (sinon une mise à jour ne se voit pas).
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

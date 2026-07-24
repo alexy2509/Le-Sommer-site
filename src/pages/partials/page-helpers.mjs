@@ -1,21 +1,25 @@
 import { icon } from './icons.mjs';
 import { escapeHtml } from './escape.mjs';
-import { faqBlock, ctaBand } from './blocks.mjs';
+import { faqBlock, contactBand, workGalleryBand } from './blocks/index.mjs';
 import { site } from './site-data.mjs';
 
 /**
  * Page silo consolidée : une intro, puis chaque sous-thème en SECTION avec ancre
- * (plus de sous-pages séparées), une zone d'intervention, une FAQ et un CTA.
+ * (plus de sous-pages séparées), une bande de réalisations, une FAQ et un CTA.
+ *
+ * Pas de bandeau « zone d'intervention » ici : il ferait doublon avec l'accueil. La couverture
+ * géographique reste portée par l'intro et par la FAQ de chaque page.
  *
  * @param {object} cfg
  * @param {string} cfg.eyebrow
  * @param {string} cfg.h1
  * @param {string} cfg.intro - HTML (paragraphes)
  * @param {Array}  cfg.sections - [{ id, title, lead, body?, points?[], highlight? }]
- * @param {string} cfg.zoneText
  * @param {Array}  cfg.faq - [{q,a}]
+ * @param {string} [cfg.extra] - HTML additionnel inséré après les réalisations (avant la FAQ)
+ * @param {'electricite'|'elevage'} [cfg.gallery] - pôle dont on affiche les photos de réalisations
  */
-export function consolidatedContent({ eyebrow, h1, intro, sections, zoneText, faq }) {
+export function consolidatedContent({ eyebrow, h1, intro, sections, faq, extra = '', gallery }) {
   const faqRes = faq ? faqBlock(faq) : null;
 
   const nav = `<nav class="silo-jump" aria-label="Sommaire du pôle">
@@ -61,13 +65,18 @@ export function consolidatedContent({ eyebrow, h1, intro, sections, zoneText, fa
 
 ${sectionHtml}
 
-<section class="silo-section" aria-labelledby="zone-title">
-  <div class="container container--narrow">
-    <h2 id="zone-title">Zone d'intervention</h2>
-    <p>${zoneText}</p>
-    <a class="card__link" href="/zone-intervention/">Découvrir notre zone d'intervention ${icon('arrowRight', 'icon')}</a>
+${
+  gallery
+    ? `<section class="section--tight" aria-labelledby="realisations-title">
+  <div class="container">
+    <h2 id="realisations-title" class="visually-hidden">Nos réalisations</h2>
+    ${workGalleryBand(gallery)}
   </div>
-</section>
+</section>`
+    : ''
+}
+
+${extra}
 
 ${
   faqRes
@@ -80,8 +89,8 @@ ${
     : ''
 }
 
-<section>
-  <div class="container">${ctaBand()}</div>
+<section class="section-contact" aria-labelledby="contact-title">
+  <div class="container">${contactBand()}</div>
 </section>`;
 
   return { html, jsonLd: faqRes ? [faqRes.jsonLd] : [] };

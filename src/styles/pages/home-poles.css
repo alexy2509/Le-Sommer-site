@@ -1,0 +1,88 @@
+/* ==== Accueil, cartes des deux pôles ==== */
+.poles-grid {
+  display: grid;
+  gap: var(--space-md);
+}
+@media (min-width: 768px) {
+  .poles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* Cartes volontairement compactes : sur l'accueil elles annoncent les deux pôles,
+   le détail vit sur les pages pôle. */
+.pole-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  background: var(--c-white);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+.pole-card:hover {
+  border-color: var(--c-petrol);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.pole-card .card__icon {
+  width: 40px;
+  height: 40px;
+}
+.pole-card .card__icon svg {
+  width: 20px;
+  height: 20px;
+}
+.pole-card .card__title {
+  font-size: 1.25rem;
+  margin-top: var(--space-3xs);
+}
+.pole-card .card__text {
+  font-size: var(--fs-small);
+}
+/* Sous-liens en pastilles qui s'enroulent : deux lignes au lieu d'une liste empilée,
+   la carte tient dans beaucoup moins de hauteur. */
+.pole-card__list {
+  list-style: none;
+  /* `margin-top: auto` : les pastilles et le bouton s'alignent d'une carte à l'autre,
+     même quand les descriptions n'occupent pas le même nombre de lignes. */
+  margin: auto 0 var(--space-sm);
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs);
+}
+.pole-card__list a {
+  display: inline-block;
+  padding: 0.34em 0.8em;
+  border-radius: 999px;
+  border: 1px solid var(--c-border);
+  font-weight: 600;
+  font-size: var(--fs-small);
+  color: var(--c-navy);
+  text-decoration: none;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+}
+.pole-card__list a:hover {
+  color: var(--c-petrol);
+  border-color: var(--c-petrol);
+  background: rgba(0, 151, 169, 0.06);
+}
+/* Mobile : on masque les pastilles de sous-rubriques. Elles doublonnent le bouton
+   « Découvrir le pôle » et coûtaient deux à trois lignes par carte. Le lien de la carte
+   mène de toute façon à la page pôle où ces rubriques sont détaillées. */
+@media (max-width: 767px) {
+  .pole-card__list {
+    display: none;
+  }
+  .pole-card {
+    padding: var(--space-sm);
+  }
+  .pole-card .btn {
+    margin-top: var(--space-2xs);
+  }
+}
+.pole-card .btn {
+  align-self: flex-start;
+}
+

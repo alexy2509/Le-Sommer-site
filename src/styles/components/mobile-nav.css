@@ -1,0 +1,184 @@
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background: var(--c-white);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform var(--transition);
+}
+.mobile-nav[data-open='true'] {
+  transform: translateX(0);
+}
+@media (min-width: 1024px) {
+  .mobile-nav {
+    display: none;
+  }
+}
+.mobile-nav__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  min-height: 76px;
+  border-bottom: 1px solid var(--c-border);
+  flex-shrink: 0;
+}
+.mobile-nav__logo {
+  display: flex;
+  align-items: center;
+}
+.mobile-nav__logo img {
+  height: 50px;
+  width: auto;
+}
+.mobile-nav__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 1px solid var(--c-border);
+  border-radius: 50%;
+  background: var(--c-white);
+  color: var(--c-navy);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+.mobile-nav__close:hover {
+  background: var(--c-bg-alt);
+}
+.mobile-nav__close svg {
+  width: 20px;
+  height: 20px;
+}
+.mobile-nav__scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-sm) var(--space-sm) var(--space-md);
+}
+.mobile-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+.mobile-nav__list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-sm);
+  border-radius: var(--radius);
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--c-navy);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+.mobile-nav__list a .icon {
+  width: 18px;
+  height: 18px;
+  color: var(--c-gray-300);
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+.mobile-nav__list a:active {
+  background: var(--c-bg-alt);
+}
+.mobile-nav__list a:hover .icon {
+  transform: translateX(3px);
+  color: var(--c-petrol);
+}
+.mobile-nav__list a[aria-current='page'] {
+  background: rgba(0, 151, 169, 0.08);
+  border-left-color: var(--c-petrol);
+  color: var(--c-petrol);
+}
+.mobile-nav__list a[aria-current='page'] .icon {
+  color: var(--c-petrol);
+}
+
+/* Bloc contact bas du menu, sur fond bleu nuit. */
+.mobile-nav__foot {
+  flex-shrink: 0;
+  background: var(--c-navy);
+  color: var(--c-white);
+  padding: var(--space-md) var(--space-md) calc(var(--space-md) + env(safe-area-inset-bottom, 0px));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.mobile-nav__foot-eyebrow {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xsmall);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-petrol-bright, #7fd4de);
+}
+.mobile-nav__phone {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-md);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  text-decoration: none;
+}
+.mobile-nav__phone-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--c-green);
+  color: var(--c-white);
+  flex-shrink: 0;
+}
+.mobile-nav__phone-icon svg {
+  width: 22px;
+  height: 22px;
+}
+.mobile-nav__phone-text {
+  display: flex;
+  flex-direction: column;
+}
+.mobile-nav__phone-number {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--c-white);
+  line-height: 1.1;
+}
+.mobile-nav__phone-sub {
+  font-size: var(--fs-small);
+  color: rgba(255, 255, 255, 0.7);
+}
+.mobile-nav__social {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+.mobile-nav__social a {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--c-white);
+  transition: background-color var(--transition-fast);
+}
+.mobile-nav__social a:hover {
+  background: var(--c-petrol);
+}
+.mobile-nav__social svg {
+  width: 18px;
+  height: 18px;
+}
+

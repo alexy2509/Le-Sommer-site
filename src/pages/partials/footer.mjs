@@ -10,10 +10,10 @@ export function footer() {
       <span class="site-footer__logo">
         <picture>
           <source srcset="/assets/brand/logo-footer.webp" type="image/webp" />
-          <img src="/assets/brand/logo-footer.png" alt="LE SOMMER, électricité industrielle et matériel d'élevage" width="1470" height="1058" loading="lazy" />
+          <img src="/assets/brand/logo-footer.png" alt="LE SOMMER, électricité industrielle et matériel d'élevage" width="960" height="692" loading="lazy" />
         </picture>
       </span>
-      <p class="site-footer__tagline">Dépannage électricité industrielle et installation de matériel d'élevage dans le Finistère et en Bretagne.</p>
+      <p class="site-footer__tagline">Électricité industrielle, ventilation, alimentation, FAF, plomberie et traitement des eaux : installation et SAV 24h/24, 7j/7 dans le Finistère et les communes limitrophes.</p>
       <div class="site-footer__social">
         <a href="${site.sameAs[0]}" target="_blank" rel="noopener noreferrer" aria-label="LE SOMMER sur Facebook">${icon('facebook', 'icon')}</a>
         <a href="${site.sameAs[1]}" target="_blank" rel="noopener noreferrer" aria-label="LE SOMMER sur LinkedIn">${icon('linkedin', 'icon')}</a>

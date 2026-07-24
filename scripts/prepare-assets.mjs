@@ -4,6 +4,7 @@ import { mkdirSync, copyFileSync, existsSync, readdirSync, writeFileSync } from 
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
+import { allWorkGalleryPhotos, carouselPhotos } from '../src/pages/partials/blocks/work-gallery.data.mjs';
 
 // Vite ne fait pas passer les attributs HTML bruts (img src, source srcset...) par
 // resolve.alias — seuls les <link>/<script type=module> traversent le graphe de modules.
@@ -78,41 +79,76 @@ async function buildLogo() {
   return iconBuffer;
 }
 
-// ---- 1b. Logo header : version détourée fournie (fond transparent, couleurs d'origine) ----
+// ---- 1b. Logo header : détouré depuis favicon-source.png ----
+// On n'utilise PAS logo-detoure-source.png : le « R » de SOMMER y touche le bord droit du
+// fichier (le tracé est rogné à la source), ce qui se voyait dans le header. favicon-source.png
+// contient le même verrouillage icône + wordmark, complet et avec de la marge.
+// `sharp.trim()` échoue ici (liseré gris de 1px dans le coin) : on calcule la boîte englobante
+// de l'encre nous-mêmes, puis on recadre avec une marge proportionnelle.
 async function buildHeaderLogo() {
-  const source = join(brandSourceDir, 'logo-detoure-source.png');
-  if (!existsSync(source)) {
-    console.warn('[assets] logo-detoure-source.png introuvable — logo header inchangé.');
+  if (!existsSync(faviconSource)) {
+    console.warn('[assets] favicon-source.png introuvable — logo header inchangé.');
     return;
   }
-  const trimmed = await sharp(source).trim({ threshold: 10 }).png().toBuffer();
-  await makeVariant(trimmed, 'logo-header', { width: 640 });
+
+  const { data, info } = await sharp(faviconSource).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { width, height, channels } = info;
+
+  // Encre = tout pixel nettement plus sombre que le fond blanc (pétrole max 169, bleu nuit max 38).
+  let x0 = width;
+  let y0 = height;
+  let x1 = -1;
+  let y1 = -1;
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = (y * width + x) * channels;
+      if (Math.max(data[i], data[i + 1], data[i + 2]) < 200 && data[i + 3] > 16) {
+        if (x < x0) x0 = x;
+        if (x > x1) x1 = x;
+        if (y < y0) y0 = y;
+        if (y > y1) y1 = y;
+      }
+    }
+  }
+  if (x1 < 0) {
+    console.warn('[assets] Aucune encre détectée dans favicon-source.png — logo header inchangé.');
+    return;
+  }
+
+  // Blanc -> transparent (le header est translucide : un fond blanc opaque se verrait).
+  for (let i = 0; i < data.length; i += channels) {
+    if (data[i] > 240 && data[i + 1] > 240 && data[i + 2] > 240) data[i + 3] = 0;
+  }
+
+  const margin = Math.round((x1 - x0) * 0.05);
+  const left = Math.max(0, x0 - margin);
+  const top = Math.max(0, y0 - margin);
+  const cropped = await sharp(data, { raw: { width, height, channels } })
+    .extract({
+      left,
+      top,
+      width: Math.min(width - left, x1 - x0 + 1 + 2 * margin),
+      height: Math.min(height - top, y1 - y0 + 1 + 2 * margin),
+    })
+    .png()
+    .toBuffer();
+
+  await makeVariant(cropped, 'logo-header', { width: 640 });
   console.log('[assets] Logo header détouré généré (logo-header.{png,webp,avif}).');
 }
 
-// ---- 1c. Logo footer : bi-ton pour fond bleu nuit (bleu marine du logo -> blanc, cyan conservé),
-//          sans cartouche blanche, pour se fondre dans le footer ----
+// ---- 1c. Logo footer : version inversée détourée fournie (cyan + blanc, fond transparent),
+//          conçue pour le fond bleu nuit du footer ----
 async function buildFooterLogo() {
-  const source = join(brandDir, 'logo-full-transparent.png'); // logo complet détouré (avec baseline)
+  const source = join(brandSourceDir, 'logo-inverse-source.png');
   if (!existsSync(source)) {
-    console.warn('[assets] logo-full-transparent.png introuvable — logo footer inchangé.');
+    console.warn('[assets] logo-inverse-source.png introuvable — logo footer inchangé.');
     return;
   }
-  const { data, info } = await sharp(source).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-  const { width, height, channels } = info;
-  for (let i = 0; i < data.length; i += channels) {
-    if (data[i + 3] < 20) continue; // pixel transparent
-    const lum = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
-    if (lum < 70) {
-      // bleu marine (texte "SOMMER" + partie sombre de l'icône) -> blanc, pour rester lisible sur navy
-      data[i] = 255;
-      data[i + 1] = 255;
-      data[i + 2] = 255;
-    }
-  }
-  await sharp(data, { raw: { width, height, channels } }).png({ quality: 90 }).toFile(join(brandDir, 'logo-footer.png'));
-  await sharp(data, { raw: { width, height, channels } }).webp({ quality: 90 }).toFile(join(brandDir, 'logo-footer.webp'));
-  console.log('[assets] Logo footer bi-ton (navy -> blanc) généré (logo-footer.{png,webp}).');
+  const trimmed = await sharp(source).trim({ threshold: 10 }).png().toBuffer();
+  await sharp(trimmed).resize({ width: 960, withoutEnlargement: true }).png({ quality: 90 }).toFile(join(brandDir, 'logo-footer.png'));
+  await sharp(trimmed).resize({ width: 960, withoutEnlargement: true }).webp({ quality: 90 }).toFile(join(brandDir, 'logo-footer.webp'));
+  console.log('[assets] Logo footer inversé détouré généré (logo-footer.{png,webp}).');
 }
 
 // ---- 2. Favicons multi-tailles + favicon.ico + apple-touch-icon + manifest ----
@@ -197,25 +233,33 @@ function buildIco(pngBuffers, sizes) {
   return Buffer.concat([header, ...dirEntries, ...imageBuffers]);
 }
 
-// ---- 3. Photo hero (stand LE SOMMER) : versions responsives AVIF/WebP/JPEG ----
+// ---- 3. Visuel hero de l'accueil : deux montages (paysage desktop / portrait mobile) ----
+// Le client fournit une mosaïque cadrée pour chaque orientation : on ne recadre donc PAS,
+// chaque variante est servie telle quelle via <picture media="...">.
 async function buildHeroImage() {
-  const source = join(imgSourceDir, 'hero-stand-source.jpg');
-  if (!existsSync(source)) {
-    console.warn('[assets] hero-stand-source.jpg introuvable — étape hero ignorée.');
-    return;
+  const variants = [
+    { file: 'hero mosaique LS desktop.png', base: 'hero-home', widths: [1024, 1440, 1920] },
+    { file: 'hero mosaique LS mobile.png', base: 'hero-home-mobile', widths: [480, 720, 960] },
+  ];
+  for (const { file, base, widths } of variants) {
+    const source = join(imgSourceDir, 'hero', file);
+    if (!existsSync(source)) {
+      console.warn(`[assets] « ${file} » introuvable — variante hero ignorée.`);
+      continue;
+    }
+    for (const w of widths) {
+      const img = sharp(source).rotate().resize({ width: w, withoutEnlargement: true });
+      await img.clone().avif({ quality: 62 }).toFile(join(imgDir, `${base}-${w}.avif`));
+      await img.clone().webp({ quality: 76 }).toFile(join(imgDir, `${base}-${w}.webp`));
+      await img.clone().jpeg({ quality: 82, mozjpeg: true }).toFile(join(imgDir, `${base}-${w}.jpg`));
+    }
+    console.log(`[assets] Hero « ${base} » généré (${widths.join(', ')} px).`);
   }
-  const widths = [768, 1280, 1920];
-  for (const w of widths) {
-    await sharp(source).resize({ width: w, withoutEnlargement: true }).avif({ quality: 60 }).toFile(join(imgDir, `hero-stand-${w}.avif`));
-    await sharp(source).resize({ width: w, withoutEnlargement: true }).webp({ quality: 72 }).toFile(join(imgDir, `hero-stand-${w}.webp`));
-    await sharp(source).resize({ width: w, withoutEnlargement: true }).jpeg({ quality: 78, mozjpeg: true }).toFile(join(imgDir, `hero-stand-${w}.jpg`));
-  }
-  console.log('[assets] Photo hero générée (hero-stand-{768,1280,1920}.{avif,webp,jpg}).');
 }
 
 // ---- 4. Logos partenaires : bords blancs/transparents rognés (trim), taille homogène ----
 async function buildPartnerLogos() {
-  const partners = ['landmeco', 'skiold', 'cbm'];
+  const partners = ['landmeco', 'skiold', 'cbm', 'nolting', 'systel', 'lubing', 'sodalec'];
   for (const name of partners) {
     const source = join(imgSourceDir, 'partners', `${name}-source.png`);
     if (!existsSync(source)) {
@@ -231,38 +275,92 @@ async function buildPartnerLogos() {
   console.log('[assets] Logos partenaires générés (public/assets/partners/).');
 }
 
-// ---- 5b. Photos de réalisations (carrousel recrutement) : responsive AVIF/WebP/JPEG ----
-async function buildWorkPhotos() {
+// Les sources gardent le nom donné par le client (accents, espaces, « + »…). macOS stocke ces
+// noms en Unicode NFD alors que le fichier de données est en NFC : d'où la comparaison
+// normalisée ci-dessous, sans quoi aucune photo n'est trouvée.
+let workDirIndex = null;
+function resolveWorkSource(name) {
   const workSrcDir = join(imgSourceDir, 'work');
-  const workOutDir = join(imgDir, 'work');
-  mkdirSync(workOutDir, { recursive: true });
-  const photos = ['armoire', 'raccordement', 'automatisme'];
+  if (!existsSync(workSrcDir)) return null;
+  workDirIndex ??= readdirSync(workSrcDir).map((f) => [f.normalize('NFC'), f]);
+  const hit = workDirIndex.find(([normalized]) => normalized === name.normalize('NFC'));
+  return hit ? join(workSrcDir, hit[1]) : null;
+}
+
+// ---- 5b. Carrousel « le métier au quotidien » (page recrutement) : 3:2, AVIF/WebP/JPEG ----
+async function buildWorkPhotos() {
+  const outDir = join(imgDir, 'work');
+  mkdirSync(outDir, { recursive: true });
   const widths = [768, 1200];
-  for (const name of photos) {
-    const source = join(workSrcDir, `${name}-source.png`);
-    if (!existsSync(source)) {
-      console.warn(`[assets] Photo réalisation ${name} introuvable — ignorée.`);
+  let count = 0;
+  for (const photo of carouselPhotos) {
+    const source = resolveWorkSource(photo.source);
+    if (!source) {
+      console.warn(`[assets] Carrousel : source introuvable pour « ${photo.slug} » (${photo.source}) — ignorée.`);
       continue;
     }
     for (const w of widths) {
-      await sharp(source).resize({ width: w, withoutEnlargement: true }).avif({ quality: 60 }).toFile(join(workOutDir, `${name}-${w}.avif`));
-      await sharp(source).resize({ width: w, withoutEnlargement: true }).webp({ quality: 74 }).toFile(join(workOutDir, `${name}-${w}.webp`));
-      await sharp(source).resize({ width: w, withoutEnlargement: true }).jpeg({ quality: 80, mozjpeg: true }).toFile(join(workOutDir, `${name}-${w}.jpg`));
+      const base = sharp(source).rotate().resize(w, Math.round((w * 2) / 3), { fit: 'cover', position: photo.crop ?? 'centre' });
+      await base.clone().avif({ quality: 60 }).toFile(join(outDir, `${photo.slug}-${w}.avif`));
+      await base.clone().webp({ quality: 74 }).toFile(join(outDir, `${photo.slug}-${w}.webp`));
+      await base.clone().jpeg({ quality: 80, mozjpeg: true }).toFile(join(outDir, `${photo.slug}-${w}.jpg`));
     }
+    count++;
   }
-  console.log('[assets] Photos de réalisations générées (public/assets/img/work/).');
+  console.log(`[assets] Carrousel recrutement : ${count} photo(s) générée(s) (public/assets/img/work/).`);
 }
 
-// ---- 5. Carte statique de localisation (source composée par scripts/build-map.mjs) ----
-async function buildLocationMap() {
-  const source = join(imgSourceDir, 'carte-localisation-source.png');
-  if (!existsSync(source)) {
-    console.warn('[assets] carte-localisation-source.png introuvable — lancer scripts/build-map.mjs.');
+// ---- 5c. Galerie « réalisations » des pages pôle : 4:3, AVIF/WebP/JPEG ----
+async function buildGalleryPhotos() {
+  const outDir = join(imgDir, 'work', 'gallery');
+  mkdirSync(outDir, { recursive: true });
+
+  // Deux jeux par photo :
+  //  - vignettes 4:3 recadrées (grille + pellicule de la visionneuse) : grille homogène ;
+  //  - une version « full » à 1400px de large qui CONSERVE le cadrage d'origine (fit: inside),
+  //    pour l'affichage plein écran — on ne veut pas y montrer une photo tronquée.
+  // Cadrage CENTRÉ par défaut : `position: 'attention'` zoomait sur le détail le plus contrasté
+  // (une étiquette, une grue) et sortait le sujet du cadre. `crop` permet de forcer au cas par cas.
+  const widths = [420, 840];
+  let count = 0;
+  for (const photo of allWorkGalleryPhotos) {
+    const source = resolveWorkSource(photo.source);
+    if (!source) {
+      console.warn(`[assets] Galerie : source introuvable pour « ${photo.slug} » (${photo.source}) — ignorée.`);
+      continue;
+    }
+    for (const w of widths) {
+      const base = sharp(source).rotate().resize(w, Math.round((w * 3) / 4), { fit: 'cover', position: photo.crop ?? 'centre' });
+      await base.clone().avif({ quality: 58 }).toFile(join(outDir, `${photo.slug}-${w}.avif`));
+      await base.clone().webp({ quality: 72 }).toFile(join(outDir, `${photo.slug}-${w}.webp`));
+      await base.clone().jpeg({ quality: 78, mozjpeg: true }).toFile(join(outDir, `${photo.slug}-${w}.jpg`));
+    }
+    const full = sharp(source).rotate().resize({ width: 1400, height: 1400, fit: 'inside', withoutEnlargement: true });
+    await full.clone().avif({ quality: 60 }).toFile(join(outDir, `${photo.slug}-full.avif`));
+    await full.clone().webp({ quality: 76 }).toFile(join(outDir, `${photo.slug}-full.webp`));
+    await full.clone().jpeg({ quality: 82, mozjpeg: true }).toFile(join(outDir, `${photo.slug}-full.jpg`));
+    count++;
+  }
+  console.log(`[assets] Galerie réalisations : ${count} photo(s) générée(s) (public/assets/img/work/gallery/).`);
+}
+
+// ---- 5d. Photo d'équipe (page « Qui sommes-nous ? ») : portrait, AVIF/WebP/JPEG ----
+// Légère accentuation (sharpen) : la source téléphone est un peu douce une fois réduite.
+async function buildTeamPhoto() {
+  const sourceDir = join(imgSourceDir, 'team');
+  if (!existsSync(sourceDir)) return;
+  const file = readdirSync(sourceDir).find((f) => /\.(jpe?g|png)$/i.test(f));
+  if (!file) {
+    console.warn('[assets] Aucune photo dans src/assets/img/team/ — étape équipe ignorée.');
     return;
   }
-  await sharp(source).png({ quality: 88 }).toFile(join(imgDir, 'carte-localisation.png'));
-  await sharp(source).webp({ quality: 80 }).toFile(join(imgDir, 'carte-localisation.webp'));
-  console.log('[assets] Carte de localisation générée (public/assets/img/carte-localisation.{png,webp}).');
+  for (const w of [480, 768]) {
+    const base = sharp(join(sourceDir, file)).rotate().resize({ width: w, withoutEnlargement: true }).sharpen({ sigma: 0.8 });
+    await base.clone().avif({ quality: 60 }).toFile(join(imgDir, `team-${w}.avif`));
+    await base.clone().webp({ quality: 76 }).toFile(join(imgDir, `team-${w}.webp`));
+    await base.clone().jpeg({ quality: 82, mozjpeg: true }).toFile(join(imgDir, `team-${w}.jpg`));
+  }
+  console.log('[assets] Photo équipe générée (team-{480,768}.{avif,webp,jpg}).');
 }
 
 // ---- 6. Polices self-hostées (Manrope / Inter) depuis @fontsource ----
@@ -296,5 +394,6 @@ await buildFavicons(iconBuffer);
 await buildHeroImage();
 await buildPartnerLogos();
 await buildWorkPhotos();
-await buildLocationMap();
+await buildGalleryPhotos();
+await buildTeamPhoto();
 copyFonts();

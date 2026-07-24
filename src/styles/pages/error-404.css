@@ -1,0 +1,20 @@
+/* ==== 404 ==== */
+.error-404 {
+  text-align: center;
+  padding-block: var(--space-xl);
+}
+.error-404__code {
+  font-family: var(--font-mono);
+  font-size: clamp(3rem, 10vw, 6rem);
+  color: var(--c-petrol);
+  font-weight: 700;
+  line-height: 1;
+}
+.error-404__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+

@@ -70,11 +70,8 @@
   --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
 
+  --header-h: 81px; /* hauteur réelle du header sticky (barre 80px + bordure) */
   --z-header: 100;
   --z-overlay: 200;
   --z-skiplink: 300;
-
-  /* Hauteur de la barre d'action mobile — partagée par la barre et le padding du body
-     (garantit qu'aucune bande blanche n'apparaisse entre le footer et la barre). */
-  --mobile-bar-h: 68px;
 }

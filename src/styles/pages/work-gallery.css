@@ -1,0 +1,173 @@
+/* ==== Galerie « nos réalisations » (pages pôle uniquement) ====
+   Carrousel horizontal : toutes les photos du pôle défilent par glissement ou avec les
+   flèches ; chaque vignette s'ouvre en plein écran (lightbox). La bande doit appuyer le
+   savoir-faire sans jamais devenir le sujet de la page. */
+.work-gallery {
+  margin-top: var(--space-lg);
+}
+.work-gallery__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+.work-gallery__title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xsmall);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  margin: 0;
+}
+.work-gallery__count {
+  color: var(--c-petrol);
+}
+.work-gallery__nav {
+  display: flex;
+  gap: var(--space-2xs);
+}
+.work-gallery__arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--c-border);
+  background: var(--c-white);
+  color: var(--c-navy);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast), opacity var(--transition-fast);
+}
+.work-gallery__arrow:hover {
+  border-color: var(--c-petrol);
+  color: var(--c-petrol);
+  background: rgba(0, 151, 169, 0.06);
+}
+.work-gallery__arrow[disabled] {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+.work-gallery__arrow .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Piste : défilement horizontal avec accroche, barre de défilement masquée. */
+.work-gallery__track {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* Marge de dépassement : les vignettes coupées à droite invitent à faire défiler. */
+  padding-bottom: var(--space-3xs);
+}
+.work-gallery__track::-webkit-scrollbar {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-gallery__track {
+    scroll-behavior: auto;
+  }
+}
+.work-gallery__track:focus-visible {
+  outline: 2px solid var(--c-petrol);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.work-gallery__item {
+  margin: 0;
+  flex: 0 0 auto;
+  width: min(320px, 74vw);
+  scroll-snap-align: start;
+}
+
+/* La vignette est un bouton : elle ouvre la visionneuse. */
+.work-gallery__media {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--c-bg-alt);
+  cursor: zoom-in;
+}
+.work-gallery__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform var(--transition);
+}
+.work-gallery__media:hover img,
+.work-gallery__media:focus-visible img {
+  transform: scale(1.04);
+}
+/* Loupe révélée au survol / focus : indique que la photo s'ouvre en grand. */
+.work-gallery__zoom {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(7, 26, 38, 0.72);
+  color: var(--c-white);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+.work-gallery__zoom svg {
+  width: 16px;
+  height: 16px;
+}
+.work-gallery__media:hover .work-gallery__zoom,
+.work-gallery__media:focus-visible .work-gallery__zoom {
+  opacity: 1;
+}
+
+/* Logo du fabricant : pastille blanche posée SUR la photo, jamais incrustée dans le fichier. */
+.work-gallery__brand {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 3px 12px rgba(7, 26, 38, 0.35);
+}
+.work-gallery__brand img {
+  display: block;
+  width: auto;
+  height: 20px;
+  object-fit: contain;
+}
+@media (min-width: 768px) {
+  .work-gallery__brand img {
+    height: 26px;
+  }
+}
+
+.work-gallery__item figcaption {
+  margin-top: var(--space-3xs);
+  font-size: var(--fs-xsmall);
+  line-height: 1.35;
+  color: var(--c-text-muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-gallery__media:hover img,
+  .work-gallery__media:focus-visible img {
+    transform: none;
+  }
+}

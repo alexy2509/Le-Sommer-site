@@ -45,7 +45,10 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173,
+    port: Number(process.env.PORT) || 5173,
     strictPort: false,
+    // Écoute aussi sur l'IP locale : permet d'ouvrir le site de développement depuis un
+    // téléphone connecté au même Wi-Fi. Serveur de dev uniquement, jamais exposé en production.
+    host: true,
   },
 });

@@ -4,10 +4,6 @@ export const meta = {
   title: 'Politique de confidentialité | LE SOMMER',
   description: "Politique de confidentialité de LE SOMMER : quelles données sont collectées via le formulaire de contact, pour quelle finalité, combien de temps et quels sont vos droits.",
   path: '/politique-confidentialite/',
-  breadcrumb: [
-    { label: 'Accueil', path: '/' },
-    { label: 'Politique de confidentialité', path: '/politique-confidentialite/' },
-  ],
 };
 
 export function content() {

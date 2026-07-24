@@ -1,0 +1,155 @@
+/* ==== « Au-delà de l'élevage » : bandeau pétrole ====
+   Seul aplat de couleur pleine du site : il isole visuellement l'offre para-agricole
+   du reste du pôle élevage et casse la succession de sections claires. */
+.beyond-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  color: var(--c-white);
+  /* Teinte pétrole assombrie : c'est le niveau le plus clair qui laisse le petit texte
+     blanc au-dessus de 4.5:1 (WCAG AA). Ne pas éclaircir sans revérifier les contrastes. */
+  background: linear-gradient(135deg, #00808f 0%, #00707f 48%, #044c58 100%);
+  box-shadow: 0 24px 56px rgba(0, 118, 134, 0.25);
+}
+/* Trame technique discrète (rappel du tracé circuit de la DA). */
+.beyond-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1.6px);
+  background-size: 22px 22px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+@media (min-width: 900px) {
+  .beyond-band {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--space-xl);
+    padding: var(--space-xl);
+  }
+}
+.beyond-band__title {
+  color: var(--c-white);
+  margin: 0 0 var(--space-xs);
+}
+.beyond-band__text {
+  color: var(--c-white);
+  margin: 0 0 var(--space-md);
+}
+.beyond-band__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+.beyond-band__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  /* Voile sombre (et non clair) : il renforce le contraste du texte blanc au lieu de le réduire. */
+  background: rgba(4, 46, 54, 0.3);
+  transition: background-color var(--transition), transform var(--transition);
+}
+.beyond-band__item:hover {
+  background: rgba(4, 46, 54, 0.45);
+  transform: translateX(3px);
+}
+.beyond-band__item > span:last-child {
+  font-size: var(--fs-small);
+  color: rgba(255, 255, 255, 0.92);
+  line-height: var(--lh-body);
+}
+.beyond-band__item strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 800;
+  color: var(--c-white);
+  margin-bottom: 1px;
+}
+.beyond-band__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.18);
+}
+.beyond-band__icon svg {
+  width: 22px;
+  height: 22px;
+  color: var(--c-white);
+}
+@media (prefers-reduced-motion: reduce) {
+  .beyond-band__item:hover {
+    transform: none;
+  }
+}
+
+/* Mobile : version condensée. Les prestations passent en liste dense (icône + titre sur une
+   ligne, sans description). Ce bloc DOIT rester en fin de fichier : à spécificité égale,
+   c'est la dernière déclaration qui gagne. */
+@media (max-width: 767px) {
+  .beyond-band {
+    padding: var(--space-md);
+    gap: var(--space-sm);
+  }
+  .beyond-band__title {
+    font-size: 1.3rem;
+    margin-bottom: var(--space-2xs);
+  }
+  /* L'accroche est retirée de l'affichage (mais pas du DOM : lecteurs d'écran et indexation
+     la conservent). Le titre et les trois prestations suffisent à comprendre l'offre. */
+  .beyond-band__text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .beyond-band .btn {
+    padding: 0.6em 1em;
+    font-size: var(--fs-small);
+    min-height: 40px;
+  }
+  .beyond-band__item {
+    align-items: center;
+    gap: var(--space-2xs);
+    padding: var(--space-2xs) var(--space-xs);
+  }
+  .beyond-band__item br,
+  .beyond-band__desc {
+    display: none;
+  }
+  .beyond-band__icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+  }
+  .beyond-band__icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .beyond-band__list {
+    gap: var(--space-3xs);
+  }
+  .beyond-band__item strong {
+    font-size: var(--fs-small);
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,13 @@
+/* ==== Pages légales ==== */
+.legal-content h2 {
+  margin-top: var(--space-lg);
+  font-size: 1.35rem;
+}
+.legal-content p,
+.legal-content li {
+  color: var(--c-text-muted);
+}
+.legal-content address {
+  font-style: normal;
+}
+

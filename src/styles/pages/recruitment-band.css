@@ -1,0 +1,96 @@
+/* ==== Bandeau recrutement (accueil) ====
+   Carte CLAIRE, dans le langage des autres cartes du site (bordure fine, coins arrondis) :
+   plus d'aplat bleu nuit qui pesait sur la page blanche. Le vert reste l'accent recrutement,
+   porté par le filet gauche, le badge et les icônes. */
+.recruit-band {
+  position: relative;
+  overflow: hidden;
+  background: var(--c-white);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-left: 4px solid var(--c-green);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: flex-start;
+  box-shadow: var(--shadow-sm);
+}
+@media (min-width: 768px) {
+  .recruit-band {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-lg) var(--space-xl);
+  }
+}
+/* Halo vert très léger, côté bouton. */
+.recruit-band::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(43, 203, 127, 0.1), transparent 68%);
+  pointer-events: none;
+}
+.recruit-band__body {
+  position: relative;
+  z-index: 1;
+}
+.recruit-band h2 {
+  color: var(--c-navy);
+  font-size: var(--fs-h3);
+  margin: var(--space-2xs) 0;
+}
+.recruit-band p {
+  color: var(--c-text-muted);
+  margin-bottom: var(--space-sm);
+  max-width: 52ch;
+}
+.recruit-band__meta {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  font-size: var(--fs-small);
+  color: var(--c-text);
+  font-weight: 600;
+}
+.recruit-band__meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.recruit-band__meta svg {
+  color: var(--c-green);
+  width: 16px;
+  height: 16px;
+}
+.recruit-band .btn {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+/* Mobile : le bouton prend la largeur de la carte (son libellé est long, il débordait). */
+@media (max-width: 767px) {
+  .recruit-band .btn {
+    align-self: stretch;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
+}
+/* Sur fond blanc, le vert clair ne contraste pas assez : texte du badge en vert foncé. */
+.badge--recruit {
+  background: rgba(43, 203, 127, 0.14);
+  color: #167a4b;
+}
+.badge--recruit svg {
+  width: 14px;
+  height: 14px;
+}

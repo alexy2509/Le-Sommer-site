@@ -5,7 +5,6 @@ export const meta = {
   description: "La page demandée est introuvable. Retrouvez nos services d'électricité industrielle et de matériel d'élevage.",
   path: '/404.html',
   navActive: '/__none__',
-  breadcrumb: null,
 };
 
 export function content() {

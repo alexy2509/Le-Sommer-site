@@ -1,0 +1,71 @@
+/* ==== Cartes ==== */
+.card {
+  background: var(--c-white);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  height: 100%;
+}
+.card:hover {
+  border-color: var(--c-petrol);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.card__icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--c-bg-alt);
+  color: var(--c-petrol);
+  margin-bottom: var(--space-2xs);
+}
+.card__icon svg {
+  width: 24px;
+  height: 24px;
+}
+.card__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--c-navy);
+  margin: 0;
+}
+.card__text {
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  margin: 0;
+  flex: 1;
+}
+.card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  font-weight: 600;
+  font-size: var(--fs-small);
+  margin-top: var(--space-2xs);
+  position: relative;
+  width: fit-content;
+}
+.card__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: var(--c-petrol);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms ease;
+}
+.card:hover .card__link::after,
+.card__link:focus-visible::after {
+  transform: scaleX(1);
+}
+
