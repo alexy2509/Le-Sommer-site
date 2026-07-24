@@ -72,6 +72,8 @@ export const partners = [
   { name: 'Systel', slug: 'systel', url: 'https://www.systel-international.com', logo: '/assets/partners/systel' },
   { name: 'Lubing', slug: 'lubing', url: 'https://www.lubing.fr', logo: '/assets/partners/lubing' },
   { name: 'Sodalec', slug: 'sodalec', url: 'https://sodis-france.fr', logo: '/assets/partners/sodalec' },
+  { name: 'Pen Ouest', slug: 'penouest', url: 'https://www.penouest.com', logo: '/assets/partners/penouest' },
+  { name: 'Rousseau', slug: 'rousseau', url: 'https://www.rousseau.fr/agriculture/silos-elevage/silos/', logo: '/assets/partners/rousseau' },
 ];
 
 export const footerSitemap = [

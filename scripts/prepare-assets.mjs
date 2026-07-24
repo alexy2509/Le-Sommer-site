@@ -5,6 +5,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { allWorkGalleryPhotos, carouselPhotos } from '../src/pages/partials/blocks/work-gallery.data.mjs';
+import { partners } from '../src/pages/partials/site-data.mjs';
 
 // Vite ne fait pas passer les attributs HTML bruts (img src, source srcset...) par
 // resolve.alias — seuls les <link>/<script type=module> traversent le graphe de modules.
@@ -259,8 +260,9 @@ async function buildHeroImage() {
 
 // ---- 4. Logos partenaires : bords blancs/transparents rognés (trim), taille homogène ----
 async function buildPartnerLogos() {
-  const partners = ['landmeco', 'skiold', 'cbm', 'nolting', 'systel', 'lubing', 'sodalec'];
-  for (const name of partners) {
+  // La liste vient de site-data (source de vérité unique) : ajouter un partenaire là-bas
+  // suffit, il n'y a plus de liste à tenir à jour ici.
+  for (const { slug: name } of partners) {
     const source = join(imgSourceDir, 'partners', `${name}-source.png`);
     if (!existsSync(source)) {
       console.warn(`[assets] Logo partenaire ${name} introuvable — ignoré.`);

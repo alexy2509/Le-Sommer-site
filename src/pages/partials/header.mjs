@@ -37,7 +37,7 @@ export function header(current) {
     </nav>
 
     <div class="site-header__actions">
-      <a class="site-header__phone" href="${site.phoneHref}">
+      <a class="site-header__phone" href="${site.phoneHref}" aria-label="Appeler LE SOMMER au ${site.phoneDisplay}">
         <span class="site-header__phone-icon">${icon('phone', 'icon')}</span>
         <span class="site-header__phone-text">
           <span class="site-header__phone-label">Dépannage 24h/24, 7j/7</span>
