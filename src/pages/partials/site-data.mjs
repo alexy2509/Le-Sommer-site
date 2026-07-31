@@ -89,6 +89,7 @@ export const footerSitemap = [
   { label: 'Bovin', path: '/materiel-elevage/#bovin' },
   { label: 'Ventilation', path: '/materiel-elevage/#ventilation' },
   { label: 'FAF & stockage', path: '/materiel-elevage/#faf-stockage' },
+  { label: 'Nos réalisations', path: '/realisations/' },
   { label: 'À propos', path: '/a-propos/' },
   { label: 'Recrutement', path: '/recrutement/' },
   { label: 'Contact', path: '/contact/' },

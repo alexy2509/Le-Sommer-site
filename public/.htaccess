@@ -64,3 +64,17 @@ ErrorDocument 404 /404.html
 <FilesMatch "^(\.env|\.git.*|package(-lock)?\.json|.*\.(md|log|sh|bak))$">
   Require all denied
 </FilesMatch>
+
+# ---- 7. Formulaire de devis ----
+# L'endpoint PHP pose un cookie de session : il ne doit jamais être mis en cache.
+<Files "contact.php">
+  <IfModule mod_headers.c>
+    Header always set Cache-Control "no-store, no-cache, must-revalidate"
+  </IfModule>
+</Files>
+# Le dossier api/ ne contient que cet endpoint : aucun listing, aucun autre script.
+<IfModule mod_rewrite.c>
+  RewriteCond %{REQUEST_URI} ^/api/
+  RewriteCond %{REQUEST_URI} !^/api/contact\.php$
+  RewriteRule ^ - [F]
+</IfModule>

@@ -1,0 +1,125 @@
+/* ==== Formulaire ==== */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin-bottom: var(--space-md);
+}
+.form-field label {
+  font-size: var(--fs-small);
+  color: var(--c-navy);
+}
+.form-field input,
+.form-field select,
+.form-field textarea {
+  font: inherit;
+  padding: 0.75em 0.9em;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-white);
+  color: var(--c-text);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  min-height: 44px;
+}
+
+/* Liste déroulante « sujet » modernisée : chevron maison, flèche native masquée. */
+.select-wrap {
+  position: relative;
+  display: block;
+}
+.select-wrap select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.75em;
+  cursor: pointer;
+  background: var(--c-white);
+}
+.select-wrap select:invalid {
+  color: var(--c-text-muted);
+}
+.select-wrap__chevron {
+  position: absolute;
+  right: 0.9em;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--c-petrol);
+  pointer-events: none;
+  transition: transform var(--transition-fast);
+}
+.select-wrap select:focus-visible ~ .select-wrap__chevron {
+  transform: translateY(-50%) rotate(180deg);
+}
+.select-wrap select option {
+  color: var(--c-navy);
+  padding: 0.5em;
+}
+.form-field textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+.form-field input:focus-visible,
+.form-field select:focus-visible,
+.form-field textarea:focus-visible {
+  border-color: var(--c-petrol);
+  box-shadow: 0 0 0 3px rgba(0, 151, 169, 0.15);
+}
+.form-field[data-invalid='true'] input,
+.form-field[data-invalid='true'] select,
+.form-field[data-invalid='true'] textarea {
+  border-color: var(--c-error);
+}
+.form-field__error {
+  color: var(--c-error);
+  font-size: var(--fs-small);
+  display: none;
+}
+.form-field[data-invalid='true'] .form-field__error {
+  display: block;
+}
+.form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  font-size: var(--fs-small);
+  color: var(--c-text-muted);
+}
+.form-checkbox input {
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Honeypot anti-spam — masqué visuellement, retiré du flux clavier/lecteur d'écran */
+.form-honeypot {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-status {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+  display: none;
+  margin-bottom: var(--space-md);
+}
+.form-status[data-visible='true'] {
+  display: block;
+}
+.form-status--success {
+  background: rgba(43, 203, 127, 0.12);
+  color: #157a4b;
+}
+.form-status--error {
+  background: rgba(214, 69, 69, 0.1);
+  color: var(--c-error);
+}
+

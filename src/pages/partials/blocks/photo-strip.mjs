@@ -1,3 +1,4 @@
+import { icon } from '../icons.mjs';
 import { escapeHtml } from '../escape.mjs';
 import { workGallery } from './work-gallery.data.mjs';
 
@@ -42,6 +43,6 @@ export function photoStrip(slugs, { eyebrow = 'Nos réalisations', title, text, 
       ${text ? `<p class="photo-strip__text">${escapeHtml(text)}</p>` : ''}
     </div>
     <div class="photo-strip__grid">${items}</div>
-    ${link ? `<p class="photo-strip__link"><a class="card__link" href="${link.href}">${escapeHtml(link.label)}</a></p>` : ''}
+    ${link ? `<p class="photo-strip__link"><a class="btn btn--secondary" href="${link.href}">${escapeHtml(link.label)} ${icon('arrowRight', 'icon')}</a></p>` : ''}
   </div>`;
 }

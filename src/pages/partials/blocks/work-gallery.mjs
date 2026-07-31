@@ -53,5 +53,6 @@ export function workGalleryBand(pole, { title = 'Nos réalisations' } = {}) {
       </div>
     </div>
     <div class="work-gallery__track" data-scroll-track tabindex="0" role="region" aria-label="${escapeHtml(title)} : faire défiler les photos">${figures}</div>
+    <p class="work-gallery__more"><a class="btn btn--secondary" href="/realisations/">Voir toutes nos réalisations ${icon('arrowRight', 'icon')}</a></p>
   </div>`;
 }

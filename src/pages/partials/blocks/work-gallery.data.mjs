@@ -279,20 +279,6 @@ export const workGallery = {
  */
 export const carouselPhotos = [
   {
-    slug: 'metier-armoire',
-    source: 'electricité indus armoire electrique en cours de montage.JPG',
-    title: 'Montage d’armoire',
-    text: "Poser les rails, monter les disjoncteurs, câbler et repérer chaque départ : c'est un travail d'atelier, méthodique, où la propreté du câblage fait la qualité de l'installation.",
-    alt: 'Armoire électrique en cours de montage par LE SOMMER',
-  },
-  {
-    slug: 'metier-coffret',
-    source: 'electricité indus armoire electrique en cours de montage 2.JPG',
-    title: 'Câblage sur site',
-    text: "Installer et raccorder un coffret de commande dans un bâtiment : lecture du schéma, passage des gaines, raccordement et contrôle avant mise sous tension.",
-    alt: 'Coffret électrique en cours de câblage dans un bâtiment',
-  },
-  {
     slug: 'metier-eclairage',
     source: 'electrité indus installation de lumière dans un poulailler entier.JPG',
     title: 'Éclairage de bâtiment',
@@ -321,6 +307,20 @@ export const carouselPhotos = [
     title: 'Ventilation de stabulation',
     text: "Poser et raccorder un brasseur d'air en hauteur, au-dessus des animaux : fixation, sécurité et raccordement électrique soignés.",
     alt: "Brasseur d'air installé par LE SOMMER dans une stabulation bovine",
+  },
+  {
+    slug: 'metier-armoire',
+    source: 'electricité indus armoire electrique en cours de montage.JPG',
+    title: 'Montage d’armoire',
+    text: "Poser les rails, monter les disjoncteurs, câbler et repérer chaque départ : c'est un travail d'atelier, méthodique, où la propreté du câblage fait la qualité de l'installation.",
+    alt: 'Armoire électrique en cours de montage par LE SOMMER',
+  },
+  {
+    slug: 'metier-coffret',
+    source: 'electricité indus armoire electrique en cours de montage 2.JPG',
+    title: 'Câblage sur site',
+    text: "Installer et raccorder un coffret de commande dans un bâtiment : lecture du schéma, passage des gaines, raccordement et contrôle avant mise sous tension.",
+    alt: 'Coffret électrique en cours de câblage dans un bâtiment',
   },
 ];
 

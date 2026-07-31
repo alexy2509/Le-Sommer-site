@@ -1,4 +1,8 @@
 import { icon } from '../partials/icons.mjs';
+
+// Doit rester identique à la constante SUJETS de public/api/contact.php :
+// le serveur rejette toute valeur hors de cette liste.
+const subjects = ['Électricité industrielle', "Matériel d'élevage", 'Ventilation', 'FAF & stockage', 'Dépannage', 'Recrutement', 'Autre'];
 import { site } from '../partials/site-data.mjs';
 
 export const meta = {
@@ -13,7 +17,7 @@ export function content() {
   <div class="container container--narrow">
     <p class="eyebrow">Contact</p>
     <h1>Parlons de votre projet ou de votre dépannage</h1>
-    <p style="font-size:var(--fs-body-lg)">Un devis, une panne, une question sur du matériel ? Appelez-nous directement : c'est le plus rapide, et vous parlez tout de suite à quelqu'un qui connaît le terrain.</p>
+    <p style="font-size:var(--fs-body-lg)">Un devis, une panne, une question sur du matériel ? Remplissez le formulaire ou appelez-nous directement : nous vous répondons rapidement.</p>
   </div>
 </section>
 
@@ -51,14 +55,71 @@ export function content() {
         </div>
       </div>
 
-      <div class="contact-direct js-anim" data-reveal>
-        <p class="eyebrow">Le plus efficace</p>
-        <h2>Appelez-nous</h2>
-        <p>Pour un devis comme pour une panne, le téléphone reste le moyen le plus rapide d'obtenir une réponse. Notre service de dépannage répond <strong>24h/24 et 7j/7</strong>.</p>
-        <a class="btn btn--primary btn--lg" href="${site.phoneHref}">${icon('phone', 'icon')} ${site.phoneDisplay}</a>
-        <p class="contact-direct__alt">Vous préférez écrire ? <a href="mailto:${site.email}">${site.email}</a><br />
-        Décrivez votre besoin (type d'installation, matériel, délais) et nous vous rappelons.</p>
-        <p class="contact-direct__note">${icon('pin', 'icon')} <span>Nous intervenons dans le Finistère et les communes limitrophes.</span></p>
+      <div class="contact-form-wrap js-anim" data-reveal>
+        <form id="contact-form" class="contact-form" method="post" action="/api/contact.php" novalidate>
+          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+
+          <!-- Honeypot anti-spam : ne pas remplir. Masqué + hors flux clavier/lecteur d'écran. -->
+          <div class="form-honeypot" aria-hidden="true">
+            <label for="website">Ne pas remplir ce champ</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="hidden" name="csrf_token" value="" data-csrf />
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="name">Nom et prénom *</label>
+              <input type="text" id="name" name="name" required autocomplete="name" maxlength="80" aria-describedby="err-name" />
+              <span class="form-field__error" id="err-name">Merci d'indiquer votre nom.</span>
+            </div>
+            <div class="form-field">
+              <label for="company">Entreprise / exploitation</label>
+              <input type="text" id="company" name="company" autocomplete="organization" maxlength="80" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required autocomplete="email" maxlength="120" aria-describedby="err-email" />
+              <span class="form-field__error" id="err-email">Merci d'indiquer un email valide.</span>
+            </div>
+            <div class="form-field">
+              <label for="phone">Téléphone *</label>
+              <input type="tel" id="phone" name="phone" required autocomplete="tel" maxlength="20" aria-describedby="err-phone" />
+              <span class="form-field__error" id="err-phone">Merci d'indiquer un téléphone valide.</span>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="subject">Sujet *</label>
+            <div class="select-wrap">
+              <select id="subject" name="subject" required aria-describedby="err-subject">
+                <option value="" selected disabled>Choisir un sujet…</option>
+                ${subjects.map((s) => `<option value="${s}">${s}</option>`).join('')}
+              </select>
+              ${icon('chevronDown', 'select-wrap__chevron')}
+            </div>
+            <span class="form-field__error" id="err-subject">Merci de choisir un sujet.</span>
+          </div>
+
+          <div class="form-field">
+            <label for="message">Votre message *</label>
+            <textarea id="message" name="message" required maxlength="3000" aria-describedby="err-message" placeholder="Décrivez votre besoin : type d'installation, panne, matériel recherché, délais…"></textarea>
+            <span class="form-field__error" id="err-message">Merci de détailler votre demande.</span>
+          </div>
+
+          <div class="form-field form-field--consent">
+            <label class="form-checkbox">
+              <input type="checkbox" id="consent" name="consent" required aria-describedby="err-consent" />
+              <span>J'accepte que mes données soient utilisées pour traiter ma demande, conformément à la <a href="/politique-confidentialite/">politique de confidentialité</a>. *</span>
+            </label>
+            <span class="form-field__error" id="err-consent">Votre accord est nécessaire pour traiter la demande.</span>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block" data-submit>Envoyer ma demande ${icon('arrowRight', 'icon')}</button>
+          <p class="form-note">* Champs obligatoires. Vos données ne sont utilisées que pour répondre à votre demande.</p>
+        </form>
       </div>
     </div>
   </div>

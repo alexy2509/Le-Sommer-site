@@ -1,0 +1,63 @@
+/* ==== Page « Nos réalisations » ====
+   Grille complète des photos, un bloc par pôle. Les vignettes réutilisent le style
+   `.work-gallery__media` (bouton + loupe + pastille de marque) : une seule mécanique
+   d'ouverture de la visionneuse dans tout le site. */
+
+/* Liens d'accès rapide aux deux pôles. */
+.realisations__jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-top: var(--space-md);
+}
+.realisations__jump a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5em 1.1em;
+  border-radius: 999px;
+  border: 1px solid var(--c-border);
+  background: var(--c-white);
+  color: var(--c-navy);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+}
+.realisations__jump a:hover {
+  border-color: var(--c-petrol);
+  color: var(--c-petrol);
+  background: rgba(0, 151, 169, 0.06);
+}
+
+/* Compteur discret à côté du titre de pôle. */
+.realisations__count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  color: var(--c-petrol);
+  white-space: nowrap;
+}
+
+.realisations__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-sm);
+}
+@media (min-width: 640px) {
+  .realisations__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .realisations__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.realisations__item {
+  margin: 0;
+}
+
+.realisations__more {
+  margin: var(--space-lg) 0 0;
+  text-align: center;
+}

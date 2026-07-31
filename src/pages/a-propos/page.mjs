@@ -55,7 +55,7 @@ export function content() {
       eyebrow: 'Quelques chantiers',
       title: 'Ce que nous réalisons',
       text: "De l'armoire montée en atelier au bâtiment entièrement équipé, voici le quotidien de nos équipes.",
-      link: { href: '/electricite-industrielle/', label: 'Voir le pôle électricité industrielle' },
+      link: { href: '/realisations/', label: 'Voir toutes nos réalisations' },
     })}
   </div>
 </section>

@@ -139,11 +139,11 @@ export function content() {
 <section class="section--tight" aria-labelledby="realisations-accueil">
   <div class="container">
     <h2 id="realisations-accueil" class="visually-hidden">Nos réalisations</h2>
-    ${photoStrip(['armoire-montage', 'poulailler-equipe', 'bovin-brasseur-air', 'silo-levage'], {
+    ${photoStrip(['eclairage-batiment', 'armoire-elevage', 'bovin-brasseur-air', 'machine-landmeco'], {
       eyebrow: 'Sur le terrain',
       title: 'Nos réalisations',
-      text: "Armoires montées en atelier, bâtiments équipés, ventilation, silos : quelques chantiers menés par nos équipes dans le Finistère.",
-      link: { href: '/materiel-elevage/', label: 'Voir toutes nos réalisations' },
+      text: "Éclairage, automatismes, ventilation, matériel d'élevage : quelques chantiers menés par nos équipes dans le Finistère.",
+      link: { href: '/realisations/', label: 'Voir toutes nos réalisations' },
     })}
   </div>
 </section>

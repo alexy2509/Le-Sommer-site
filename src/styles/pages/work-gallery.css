@@ -59,20 +59,15 @@
   display: flex;
   gap: var(--space-sm);
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
   /* Marge de dépassement : les vignettes coupées à droite invitent à faire défiler. */
   padding-bottom: var(--space-3xs);
 }
 .work-gallery__track::-webkit-scrollbar {
   display: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .work-gallery__track {
-    scroll-behavior: auto;
-  }
 }
 .work-gallery__track:focus-visible {
   outline: 2px solid var(--c-petrol);
@@ -164,4 +159,10 @@
   .work-gallery__media:focus-visible img {
     transform: none;
   }
+}
+
+/* Accès à la page qui regroupe toutes les réalisations. */
+.work-gallery__more {
+  margin: var(--space-md) 0 0;
+  text-align: center;
 }

@@ -4,6 +4,7 @@ import { initFaq } from './modules/faq.js';
 import { initCarousels } from './modules/carousel.js';
 import { initLightbox } from './modules/lightbox.js';
 import { initGalleryScroll } from './modules/gallery-scroll.js';
+import { initContactForm } from './modules/form.js';
 import { initReveals } from './animations/reveals.js';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -18,6 +19,7 @@ initFaq();
 initCarousels();
 initLightbox();
 initGalleryScroll();
+initContactForm();
 initReveals();
 
 if (document.fonts?.ready) {
