@@ -1,4 +1,4 @@
-import { faqBlock, contactBand, partnersCarousel, beyondBand } from './partials/blocks/index.mjs';
+import { faqBlock, contactBand, partnersCarousel, beyondBand, photoStrip } from './partials/blocks/index.mjs';
 import { icon } from './partials/icons.mjs';
 import { site } from './partials/site-data.mjs';
 
@@ -133,6 +133,18 @@ export function content() {
       <p>Nous installons le matériel de fabricants spécialisés.</p>
     </div>
     ${partnersCarousel()}
+  </div>
+</section>
+
+<section class="section--tight" aria-labelledby="realisations-accueil">
+  <div class="container">
+    <h2 id="realisations-accueil" class="visually-hidden">Nos réalisations</h2>
+    ${photoStrip(['armoire-montage', 'poulailler-equipe', 'bovin-brasseur-air', 'silo-levage'], {
+      eyebrow: 'Sur le terrain',
+      title: 'Nos réalisations',
+      text: "Armoires montées en atelier, bâtiments équipés, ventilation, silos : quelques chantiers menés par nos équipes dans le Finistère.",
+      link: { href: '/materiel-elevage/', label: 'Voir toutes nos réalisations' },
+    })}
   </div>
 </section>
 

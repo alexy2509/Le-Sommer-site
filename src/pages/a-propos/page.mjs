@@ -1,5 +1,5 @@
 import { icon } from '../partials/icons.mjs';
-import { contactBand } from '../partials/blocks/index.mjs';
+import { contactBand, photoStrip } from '../partials/blocks/index.mjs';
 
 export const meta = {
   title: 'Qui sommes-nous ? | LE SOMMER, Ergué-Gabéric (29)',
@@ -45,6 +45,18 @@ export function content() {
       <li class="js-anim" data-reveal><strong>SAV 24h/24 et 7j/7</strong><p class="card__text">Assistance et dépannage par des techniciens spécialisés.</p></li>
     </ol>
     <p class="method-steps__more"><a class="card__link" href="/recrutement/">L'équipe grandit : découvrir nos offres d'emploi ${icon('arrowRight', 'icon')}</a></p>
+  </div>
+</section>
+
+<section class="section--tight" aria-labelledby="realisations-apropos">
+  <div class="container">
+    <h2 id="realisations-apropos" class="visually-hidden">Quelques chantiers</h2>
+    ${photoStrip(['armoire-commande', 'eclairage-batiment', 'voliere-interieur', 'ventilation-exterieur'], {
+      eyebrow: 'Quelques chantiers',
+      title: 'Ce que nous réalisons',
+      text: "De l'armoire montée en atelier au bâtiment entièrement équipé, voici le quotidien de nos équipes.",
+      link: { href: '/electricite-industrielle/', label: 'Voir le pôle électricité industrielle' },
+    })}
   </div>
 </section>
 

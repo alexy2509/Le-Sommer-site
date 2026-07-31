@@ -20,8 +20,22 @@ export const PHOTO_CREDIT =
 export const workGallery = {
   electricite: [
     {
+      slug: 'armoire-montage',
+      source: 'electricité indus armoire electrique en cours de montage.JPG',
+      caption: 'Armoire en cours de montage',
+      alt: "Armoire électrique en cours de montage : disjoncteurs, rails et câblage repéré",
+      featured: true,
+    },
+    {
+      slug: 'coffret-montage',
+      source: 'electricité indus armoire electrique en cours de montage 2.JPG',
+      caption: 'Coffret de commande en cours de câblage',
+      alt: "Coffret électrique de commande en cours de câblage dans un bâtiment",
+      featured: true,
+    },
+    {
       slug: 'armoire-atelier',
-      source: 'electrité indus armoire elctrique.JPG',
+      source: 'electrité indus armoire elctrique.png',
       caption: 'Armoire en cours d’assemblage',
       alt: "Armoire électrique industrielle en cours d'assemblage en atelier à Ergué-Gabéric",
       featured: true,
@@ -36,7 +50,7 @@ export const workGallery = {
     },
     {
       slug: 'tableau-distribution',
-      source: 'electrité indus armoire electri.JPG',
+      source: 'electrité indus armoire electri.png',
       caption: 'Tableau de distribution raccordé',
       alt: 'Tableau de distribution électrique industriel raccordé et repéré',
       featured: true,
@@ -71,7 +85,7 @@ export const workGallery = {
     },
     {
       slug: 'automatisme-ecran',
-      source: 'electrité indus automatisme sodalec 2.JPG',
+      source: 'electrité indus automatisme sodalec 2.png',
       caption: 'Automatisme à écran tactile',
       alt: "Armoire d'automatisme Sodalec à écran tactile pilotant une installation",
       brand: 'sodalec',
@@ -84,7 +98,7 @@ export const workGallery = {
     },
     {
       slug: 'batiment-camion',
-      source: 'electrité indus et elevage interieur de batiment et camion LS.JPG',
+      source: 'electrité indus et elevage interieur de batiment et camion LS.png',
       caption: 'Intervention en bâtiment',
       alt: 'Véhicule LE SOMMER en intervention dans un bâtiment agricole',
     },
@@ -106,12 +120,6 @@ export const workGallery = {
       source: 'electrité indus raccordement groupe electro.JPG',
       caption: 'Groupe électrogène de secours',
       alt: 'Groupe électrogène de secours raccordé dans un local technique',
-    },
-    {
-      slug: 'cheminement-cables',
-      source: 'electrité indus raccordement propre.JPG',
-      caption: 'Cheminement de câbles',
-      alt: 'Cheminement de câbles électriques soigné le long d’une paroi de bâtiment',
     },
   ],
 
@@ -175,12 +183,6 @@ export const workGallery = {
       alt: "Silo à aliment installé en extérieur le long d'un bâtiment d'élevage",
     },
     {
-      slug: 'ventilation-poulailler',
-      source: 'elevage instalation ventilation dans un poulailler.JPG',
-      caption: 'Ventilation intérieure de poulailler',
-      alt: "Turbines de ventilation installées à l'intérieur d'un poulailler",
-    },
-    {
       slug: 'convoyeur-oeufs',
       source: 'elevage installation convoyeur.JPG',
       caption: 'Convoyeur à œufs',
@@ -194,7 +196,7 @@ export const workGallery = {
     },
     {
       slug: 'machine-skiold',
-      source: 'elevage installation machine de la marque skiold.JPG',
+      source: 'elevage installation machine de la marque skiold.png',
       caption: 'Matériel Skiold installé',
       alt: 'Matériel de fabrique d’aliment Skiold installé par LE SOMMER',
       brand: 'skiold',
@@ -214,7 +216,7 @@ export const workGallery = {
     },
     {
       slug: 'voliere-avant-poules',
-      source: "elevage interieur voliere avant l'arrivée des poules.JPG",
+      source: "elevage interieur voliere avant l'arrivée des poules landmeco.JPG",
       caption: 'Volière prête à recevoir le cheptel',
       alt: 'Volière avicole terminée, prête à recevoir les poules',
     },
@@ -276,6 +278,20 @@ export const workGallery = {
  * Les slugs servent de chemin d'image (public/assets/img/work/<slug>-{768,1200}.*).
  */
 export const carouselPhotos = [
+  {
+    slug: 'metier-armoire',
+    source: 'electricité indus armoire electrique en cours de montage.JPG',
+    title: 'Montage d’armoire',
+    text: "Poser les rails, monter les disjoncteurs, câbler et repérer chaque départ : c'est un travail d'atelier, méthodique, où la propreté du câblage fait la qualité de l'installation.",
+    alt: 'Armoire électrique en cours de montage par LE SOMMER',
+  },
+  {
+    slug: 'metier-coffret',
+    source: 'electricité indus armoire electrique en cours de montage 2.JPG',
+    title: 'Câblage sur site',
+    text: "Installer et raccorder un coffret de commande dans un bâtiment : lecture du schéma, passage des gaines, raccordement et contrôle avant mise sous tension.",
+    alt: 'Coffret électrique en cours de câblage dans un bâtiment',
+  },
   {
     slug: 'metier-eclairage',
     source: 'electrité indus installation de lumière dans un poulailler entier.JPG',

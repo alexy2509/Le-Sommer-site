@@ -9,7 +9,7 @@ export const site = {
   siret: '893 501 379 00018',
   siren: '893 501 379',
   shareCapital: '8 000 €',
-  domain: 'https://www.le-sommer.com',
+  domain: 'https://le-sommer.fr',
   phoneDisplay: '06 61 04 89 26',
   phoneHref: 'tel:+33661048926',
   email: 'v.lesommer@outlook.fr',

@@ -1,13 +1,4 @@
-# Adresse temporaire de validation : indexation BLOQUÉE.
-# Tant que le site est sur *.pages.dev, il ne doit pas apparaître dans Google — sinon il
-# ferait doublon avec le site Wix encore en ligne et se pénaliserait lui-même.
-#
-# À LA BASCULE DU DOMAINE (étape 5), remplacer tout ce fichier par :
-#
-#   User-agent: *
-#   Allow: /
-#   Disallow: /api/
-#   Sitemap: https://www.le-sommer.com/sitemap.xml
-
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://le-sommer.fr/sitemap.xml

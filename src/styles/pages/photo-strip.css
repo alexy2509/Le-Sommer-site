@@ -1,0 +1,58 @@
+/* ==== Bande photo (accueil, à-propos) ====
+   Mosaïque illustrative : 2 colonnes sur mobile, 4 sur desktop. Purement décorative —
+   la galerie interactive reste sur les pages pôle. */
+.photo-strip__head {
+  text-align: center;
+  max-width: 60ch;
+  margin: 0 auto var(--space-md);
+}
+.photo-strip__title {
+  margin: 0 0 var(--space-2xs);
+}
+.photo-strip__text {
+  color: var(--c-text-muted);
+  margin: 0;
+}
+.photo-strip__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2xs);
+}
+@media (min-width: 768px) {
+  .photo-strip__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-sm);
+  }
+}
+.photo-strip__item {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--c-bg-alt);
+}
+.photo-strip__item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform var(--transition);
+}
+.photo-strip__item:hover img {
+  transform: scale(1.05);
+}
+.photo-strip__item figcaption {
+  padding: var(--space-2xs) var(--space-xs) var(--space-xs);
+  font-size: var(--fs-xsmall);
+  line-height: 1.35;
+  color: var(--c-text-muted);
+}
+.photo-strip__link {
+  text-align: center;
+  margin: var(--space-md) 0 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-strip__item:hover img {
+    transform: none;
+  }
+}

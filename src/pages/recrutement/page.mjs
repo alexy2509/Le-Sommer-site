@@ -15,7 +15,7 @@ const jobPosting = {
   '@type': 'JobPosting',
   title: jobTitle,
   description:
-    "Technicien Monteur Dépanneur H/F en CDI temps plein chez LE SOMMER (Ergué-Gabéric). Montage, installation et dépannage de matériel électrique et d'élevage. Véhicule de fonction, travail en journée. Entreprise en développement offrant des opportunités d'évolution.",
+    "Technicien Monteur Dépanneur H/F en CDI temps plein chez LE SOMMER (Ergué-Gabéric). Montage, installation et dépannage de matériel électrique et d'élevage. Véhicule de fonction, travail en journée. Une expérience ou un diplôme dans le photovoltaïque (panneaux solaires) est particulièrement apprécié. Entreprise en développement offrant des opportunités d'évolution.",
   employmentType: 'FULL_TIME',
   datePosted: '2026-01-01',
   hiringOrganization: { '@type': 'Organization', name: site.name, sameAs: `${site.domain}/` },
@@ -76,6 +76,7 @@ export function content() {
             <li>Bac+2 souhaité (BTS/DUT)</li>
             <li>1 an d'expérience en montage souhaité</li>
             <li>Compétences en électromécanique / maintenance appréciées</li>
+            <li><strong>Une expérience ou un diplôme dans le photovoltaïque (panneaux solaires) est particulièrement recherché</strong></li>
             <li>Une sensibilité au monde agricole et de l'élevage est un plus</li>
           </ul>
         </div>
@@ -96,6 +97,7 @@ export function content() {
       <li>Un véhicule de fonction</li>
       <li>Un travail en journée</li>
       <li>Des opportunités d'évolution</li>
+      <li>Un poste ouvert sur le photovoltaïque, activité que nous développons</li>
     </ul>
     <div class="card" style="margin-top:var(--space-md)">
       <h3 class="card__title">Comment postuler</h3>

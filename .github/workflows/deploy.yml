@@ -1,0 +1,51 @@
+# Construit le site et publie le résultat sur la branche `deploy`.
+#
+# Pourquoi cette étape : Hostinger (mutualisé) sait CLONER un dépôt, mais pas exécuter
+# `npm run build`. Si on lui donnait `main`, il déploierait les sources (src/, package.json…)
+# et le site ne s'afficherait pas. On lui donne donc une branche qui contient uniquement le
+# site construit, prêt à servir.
+#
+# Résultat : à chaque push sur `main`, la branche `deploy` est mise à jour automatiquement ;
+# il suffit de cliquer « Deploy » dans Hostinger (ou de laisser le webhook le faire).
+name: Construire et publier le site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # permet aussi de le lancer à la main depuis l'onglet Actions
+
+permissions:
+  contents: write # nécessaire pour écrire sur la branche `deploy`
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Construire le site
+        run: npm run build
+
+      - name: Publier sur la branche deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: deploy
+          # Le site est servi à la racine du domaine : pas de fichier .nojekyll ni de CNAME.
+          force_orphan: true
+          commit_message: 'Build automatique depuis ${{ github.sha }}'

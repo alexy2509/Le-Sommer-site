@@ -1,0 +1,66 @@
+# Configuration Apache pour Hostinger — équivalent du vercel.json.
+# Ce fichier est copié tel quel dans dist/ au build, donc déployé à la racine du site.
+
+# ---- 1. HTTPS + domaine canonique (le-sommer.fr, sans www) ----
+RewriteEngine On
+
+# Force HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://le-sommer.fr%{REQUEST_URI} [L,R=301]
+
+# www.le-sommer.fr -> le-sommer.fr
+RewriteCond %{HTTP_HOST} ^www\.le-sommer\.fr$ [NC]
+RewriteRule ^ https://le-sommer.fr%{REQUEST_URI} [L,R=301]
+
+# ---- 2. Redirections 301 depuis les anciennes URLs Wix ----
+# Elles préservent le référencement acquis par le site le-sommer.com.
+Redirect 301 /s-projects-side-by-side /electricite-industrielle/
+Redirect 301 /aviculture            /materiel-elevage/
+Redirect 301 /porcin                /materiel-elevage/
+Redirect 301 /bovin                 /materiel-elevage/
+Redirect 301 /projects-8            /materiel-elevage/
+Redirect 301 /contactez-moi         /contact/
+
+# ---- 3. En-têtes de sécurité (CLAUDE.md §12.1) ----
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Cross-Origin-Resource-Policy "same-origin"
+  # CSP stricte : aucun script ni style externe, aucun inline.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+  Header unset X-Powered-By
+</IfModule>
+
+# ---- 4. Cache ----
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Les fichiers d'assets portent une empreinte dans leur nom : cache maximal.
+  <FilesMatch "\.(css|js|avif|webp|jpg|jpeg|png|woff2|svg|ico)$">
+    ExpiresDefault "access plus 1 year"
+    Header append Cache-Control "public, immutable"
+  </FilesMatch>
+  # Le HTML doit toujours être revalidé, sinon une mise à jour ne se voit pas.
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 0 seconds"
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ---- 5. Compression ----
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# ---- 6. Divers ----
+Options -Indexes
+ServerSignature Off
+ErrorDocument 404 /404.html
+
+# Bloque l'accès aux fichiers sensibles qui pourraient traîner
+<FilesMatch "^(\.env|\.git.*|package(-lock)?\.json|.*\.(md|log|sh|bak))$">
+  Require all denied
+</FilesMatch>

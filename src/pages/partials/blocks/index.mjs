@@ -11,4 +11,5 @@ export { photoCarousel } from './photo-carousel.mjs';
 export { beyondBand } from './beyond-band.mjs';
 export { bretagneZone } from './bretagne-zone.mjs';
 export { workGalleryBand } from './work-gallery.mjs';
+export { photoStrip } from './photo-strip.mjs';
 export { serviceJsonLd } from './json-ld.mjs';
