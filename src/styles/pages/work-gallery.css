@@ -159,12 +159,6 @@
   }
 }
 
-.work-gallery__item figcaption {
-  margin-top: var(--space-3xs);
-  font-size: var(--fs-xsmall);
-  line-height: 1.35;
-  color: var(--c-text-muted);
-}
 @media (prefers-reduced-motion: reduce) {
   .work-gallery__media:hover img,
   .work-gallery__media:focus-visible img {

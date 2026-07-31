@@ -31,7 +31,6 @@ export function photoStrip(slugs, { eyebrow = 'Nos réalisations', title, text, 
         <source type="image/webp" srcset="${BASE}/${p.slug}-420.webp 420w, ${BASE}/${p.slug}-840.webp 840w" sizes="(min-width: 768px) 25vw, 50vw" />
         <img src="${BASE}/${p.slug}-420.jpg" alt="${escapeHtml(p.alt)}" width="420" height="315" loading="lazy" decoding="async" />
       </picture>
-      <figcaption>${escapeHtml(p.caption)}</figcaption>
     </figure>`,
     )
     .join('');

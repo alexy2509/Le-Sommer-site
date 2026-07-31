@@ -41,12 +41,6 @@
 .photo-strip__item:hover img {
   transform: scale(1.05);
 }
-.photo-strip__item figcaption {
-  padding: var(--space-2xs) var(--space-xs) var(--space-xs);
-  font-size: var(--fs-xsmall);
-  line-height: 1.35;
-  color: var(--c-text-muted);
-}
 .photo-strip__link {
   text-align: center;
   margin: var(--space-md) 0 0;

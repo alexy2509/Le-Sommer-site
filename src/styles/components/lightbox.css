@@ -50,12 +50,6 @@ body.has-lightbox {
   text-align: center;
   color: var(--c-white);
 }
-.lightbox__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-body);
-}
 .lightbox__counter {
   margin: var(--space-3xs) 0 0;
   font-family: var(--font-mono);

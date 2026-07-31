@@ -50,13 +50,12 @@ function buildViewer() {
   img.decoding = 'async';
 
   const caption = el('figcaption', 'lightbox__caption', figure);
-  const title = el('p', 'lightbox__title', caption);
   const counter = el('p', 'lightbox__counter', caption);
   counter.setAttribute('aria-live', 'polite');
   const credit = el('p', 'lightbox__credit', caption);
 
   document.body.appendChild(root);
-  return { root, backdrop, close, prev, next, srcAvif, srcWebp, img, title, counter, credit };
+  return { root, backdrop, close, prev, next, srcAvif, srcWebp, img, counter, credit };
 }
 
 export function initLightbox() {
@@ -76,7 +75,6 @@ export function initLightbox() {
     ui.srcWebp.srcset = `${p.base}-full.webp`;
     ui.img.src = `${p.base}-full.jpg`;
     ui.img.alt = p.alt;
-    ui.title.textContent = p.caption;
     ui.counter.textContent = `${index + 1} / ${photos.length}`;
     ui.credit.textContent = credit;
   }

@@ -23,7 +23,7 @@ export function workGalleryBand(pole, { title = 'Nos réalisations' } = {}) {
   const photos = workGallery[pole];
   if (!photos?.length) return '';
 
-  const payload = photos.map((p) => ({ base: `${BASE}/${p.slug}`, alt: p.alt, caption: p.caption }));
+  const payload = photos.map((p) => ({ base: `${BASE}/${p.slug}`, alt: p.alt }));
 
   const figures = photos
     .map((p, i) => {
@@ -31,7 +31,7 @@ export function workGalleryBand(pole, { title = 'Nos réalisations' } = {}) {
         ? `<span class="work-gallery__brand"><img src="/assets/partners/${p.brand}.png" alt="" width="120" height="40" loading="lazy" /></span>`
         : '';
       return `<figure class="work-gallery__item">
-      <button type="button" class="work-gallery__media" data-photo-index="${i}" aria-label="Agrandir : ${escapeHtml(p.caption)}">
+      <button type="button" class="work-gallery__media" data-photo-index="${i}" aria-label="Agrandir la photo : ${escapeHtml(p.alt)}">
         <picture>
           <source type="image/avif" srcset="${BASE}/${p.slug}-420.avif 420w, ${BASE}/${p.slug}-840.avif 840w" sizes="320px" />
           <source type="image/webp" srcset="${BASE}/${p.slug}-420.webp 420w, ${BASE}/${p.slug}-840.webp 840w" sizes="320px" />
@@ -40,7 +40,6 @@ export function workGalleryBand(pole, { title = 'Nos réalisations' } = {}) {
         ${brand}
         <span class="work-gallery__zoom" aria-hidden="true">${icon('maximize')}</span>
       </button>
-      <figcaption>${escapeHtml(p.caption)}</figcaption>
     </figure>`;
     })
     .join('');
